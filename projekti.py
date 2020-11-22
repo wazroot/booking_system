@@ -7,3 +7,5 @@ print('toimiix')
 
 print('toimii')
 print('toimiiko')
+
+print('Näyttäis toimivan ^__^')
