@@ -14,3 +14,5 @@ onnistuuko = False
 
 if not onnistuuko:
     print("yritä kovemmin.")
+
+print('yes poks! wörkkii!')
