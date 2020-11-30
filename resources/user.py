@@ -19,7 +19,7 @@ instructions_list_schema = InstructionSchema(many=True)
 user_schema = UserSchema()
 user_public_schema = UserSchema(exclude=('email', ))
 
-class UserInstructionsListResource(Resource):
+class UserSpaceListResource(Resource):
     @jwt_optional
     @use_kwargs({'visibility': fields.Str(missing='public')})
     def get(self, username, visibility):

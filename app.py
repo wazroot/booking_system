@@ -4,8 +4,8 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from Config import Config
 from extensions import db, jwt
-from resources.user import UserListResource, UserResource, MeResource, UserInstructionListResource
-from resources.space import InstructionListResource, InstructionResource, InstructionPublic
+from resources.user import UserListResource, UserResource, MeResource, UserSpaceListResource
+from resources.space import SpaceListResource, SpaceResource, SpacePublic
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
 # Muista muuttaa importit myöhemmin!!!
 
@@ -38,9 +38,9 @@ def register_resources(app):
     api.add_resource(UserListResource, '/users')
     api.add_resource(UserResource, '/users/<string:username>')
     api.add_resource(TokenResource, '/token')
-    api.add_resource(InstructionListResource, '/instructions')
-    api.add_resource(InstructionResource, '/instructions/<int:instruction_id>')
-    api.add_resource(InstructionPublic, '/instructions/<int:instruction_id>/publish')
-    api.add_resource(UserInstructionListResource, '/users/<string:username>/instructions')
+    api.add_resource(SpaceListResource, '/instructions')
+    api.add_resource(SpaceResource, '/instructions/<int:instruction_id>')
+    api.add_resource(SpacePublic, '/instructions/<int:instruction_id>/publish')
+    api.add_resource(UserSpaceListResource, '/users/<string:username>/instructions')
     # Muista muuttaa endpointit myöhemmin!!!
     
