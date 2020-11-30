@@ -5,7 +5,7 @@ from flask_restful import Api
 from Config import Config
 from extensions import db, jwt
 from resources.user import UserListResource, UserResource, MeResource, UserInstructionListResource
-from resources.instruction import InstructionListResource, InstructionResource, InstructionPublic
+from resources.space import InstructionListResource, InstructionResource, InstructionPublic
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
 # Muista muuttaa importit myöhemmin!!!
 
