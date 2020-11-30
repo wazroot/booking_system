@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.idea",
+    "\\models",
+    "\\resources",
+    "\\schemas"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\utils.py",
   "PreviewInSolutionExplorer": false
 }
