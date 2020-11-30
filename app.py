@@ -42,3 +42,5 @@ def register_resources(app):
     api.add_resource(InstructionResource, '/instructions/<int:instruction_id>')
     api.add_resource(InstructionPublic, '/instructions/<int:instruction_id>/publish')
     api.add_resource(UserInstructionListResource, '/users/<string:username>/instructions')
+    # Muista muuttaa endpointit myöhemmin!!!
+    
