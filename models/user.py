@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from extensions import db
+
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -7,15 +10,15 @@ class User(db.Model):
     email = db.Column(db.String(200), nullable=False, unique=True)
     password = db.Column(db.String(200))
     role = db.Column(db.String(200), nullable=False)
-    is_active = db.Column(db.Boolean(), default=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now(), onupdate=db.func.now())
-    
-    #instructions = db.relationship('Instruction', backref='user')   <------ muutetaan tätä jos ongelmia
-    
+
+    # instructions = db.relationship('Instruction', backref='user')   <------ muutetaan tï¿½tï¿½ jos ongelmia
+
     @classmethod
     def get_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
+
     @classmethod
     def get_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
