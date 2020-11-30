@@ -11,7 +11,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now(), onupdate=db.func.now())
     
-    #instructions = db.relationship('Instruction', backref='user')   <------ muutetaan tätä jos ongelmia
+    #instructions = db.relationship('Instruction', backref='user')   <------ muutetaan tï¿½tï¿½ jos ongelmia
     
     @classmethod
     def get_by_username(cls, username):

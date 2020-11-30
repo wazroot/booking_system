@@ -14,6 +14,7 @@ from models.instructions import Instructions
 from schemas.instruction import InstructionSchema
 from schemas.user import UserSchema
 
+#Instructionit pois!
 instructions_list_schema = InstructionSchema(many=True)
 user_schema = UserSchema()
 user_public_schema = UserSchema(exclude=('email', ))
