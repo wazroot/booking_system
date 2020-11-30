@@ -2,10 +2,16 @@
 from flask import request
 from flask_restful import Resource
 from http import HTTPStatus
-from models.instructions import Instruction
+from models.space import Space
+from models.reservation import Reservation
 from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
+<<<<<<< HEAD
 from schemas.instruction import InstructionSchema
 # Muista muuttaa importit!!!
+=======
+from schemas.validations import InstructionSchema
+
+>>>>>>> c1d58f6d7cefa1d486abc55a2702ae4b108146e0
 
 
 instruction_schema = InstructionSchema()
