@@ -1,3 +1,5 @@
+from extensions import db
+
 class Space(db.Model):
     __tablename__ = 'space'
 
