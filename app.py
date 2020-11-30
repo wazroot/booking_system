@@ -29,3 +29,16 @@ def register_extensions(app):
 
         jti = decrypted_token['jti']
         return jti in black_list
+
+def register_resources(app):
+    api = Api(app)
+    api.add_resource(RefreshResource, '/refresh')
+    api.add_resource(RevokeResource, '/revoke')
+    api.add_resource(MeResource, '/me')
+    api.add_resource(UserListResource, '/users')
+    api.add_resource(UserResource, '/users/<string:username>')
+    api.add_resource(TokenResource, '/token')
+    api.add_resource(InstructionListResource, '/instructions')
+    api.add_resource(InstructionResource, '/instructions/<int:instruction_id>')
+    api.add_resource(InstructionPublic, '/instructions/<int:instruction_id>/publish')
+    api.add_resource(UserInstructionListResource, '/users/<string:username>/instructions')
