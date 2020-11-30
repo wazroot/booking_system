@@ -127,3 +127,39 @@ class SpaceResource(Resource):
         instruction.duration = data.get('duration') or instruction.duration
         instruction.save()
         return instruction_schema.dump(instruction).data, HTTPStatus.OK
+
+# Muista muuttaa instruction -> space
+class SpacePublic(Resource):
+    @jwt_required
+    def put(self, instruction_id):
+        instruction = Instruction.get_by_id(instruction_id=instruction_id)
+
+        if instruction is None:
+            return {'message': 'instruction not found'}, HTTPStatus.NOT_FOUND
+
+        current_user = get_jwt_identity()
+
+        if current_user != instruction.user_id:
+            return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
+
+        instruction.is_publish = True
+        instruction.save()
+
+        return {}, HTTPStatus.NO_CONTENT
+
+    @jwt_required
+    def delete(self, instruction_id):
+        instruction = Instruction.get_by_id(instruction_id=instruction_id)
+
+        if instruction is None:
+            return {'message': 'instruction not found'}, HTTPStatus.NOT_FOUND
+
+        current_user = get_jwt_identity()
+
+        if current_user != instruction.user_id:
+            return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
+
+        instruction.is_publish = False
+        instruction.save()
+
+        return {}, HTTPStatus.NO_CONTENT
