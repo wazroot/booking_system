@@ -13,7 +13,7 @@ print('Näyttäis toimivan ^__^')
 onnistuuko = False
 
 if not onnistuuko:
-    print("yritä kovemmin.")
+    print("yritä")
 
 print('yes poks! wörkkii!')
 
