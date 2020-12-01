@@ -19,8 +19,8 @@ class Space(db.Model):
         }
 
     @classmethod
-    def get_by_id(cls, recipe_id):
-        return cls.query.filter_by(id=recipe_id).first()
+    def get_by_id(cls, space_id):
+        return cls.query.filter_by(id=space_id).first()
 
     def save(self):
         db.session.add(self)
