@@ -5,13 +5,12 @@ from http import HTTPStatus
 from models.space import Space
 from models.reservation import Reservation
 from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
-
-from schemas.validations import InstructionSchema
-# Muista muuttaa importit!!!
+from schemas.validations import SpaceSchema
 
 
-space_schema = InstructionSchema()
-space_list_schema = InstructionSchema(many=True)
+
+space_schema = SpaceSchema()
+space_list_schema = SpaceSchema(many=True)
 
 # Muista muuttaa instruction -> space
 class SpaceListResource(Resource):
@@ -48,7 +47,7 @@ class SpaceResource(Resource):
 
 
         if space is None:
-            return {'message': 'instruction not found'}, HTTPStatus.NOT_FOUND
+            return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
         # current_user = get_jwt_identity()
 
@@ -67,7 +66,7 @@ class SpaceResource(Resource):
 
 
         if space is None:
-            return {'message': 'instruction not found'}, HTTPStatus.NOT_FOUND
+            return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
         current_user = get_jwt_identity()
 
@@ -89,7 +88,7 @@ class SpaceResource(Resource):
         space = Space.get_by_id(space_id)
 
         if space is None:
-            return {'message': 'instruction not found'}, HTTPStatus.NOT_FOUND
+            return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
         current_user = get_jwt_identity()
 
@@ -133,34 +132,34 @@ class SpaceResource(Resource):
 class SpacePublic(Resource):#Ei tätä taideta tarvita? listaa julkaistut tilat?
     @jwt_required
     def put(self, instruction_id):
-        instruction = Instruction.get_by_id(instruction_id=instruction_id)
+        space = Space.get_by_id(instruction_id=instruction_id)
 
-        if instruction is None:
-            return {'message': 'instruction not found'}, HTTPStatus.NOT_FOUND
+        if space is None:
+            return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
         current_user = get_jwt_identity()
 
-        if current_user != instruction.user_id:
+        if current_user != space.user_id:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
-        instruction.is_publish = True
-        instruction.save()
+        space.is_publish = True
+        space.save()
 
         return {}, HTTPStatus.NO_CONTENT
 
     @jwt_required
-    def delete(self, instruction_id):
-        instruction = Instruction.get_by_id(instruction_id=instruction_id)
+    def delete(self, space_id):
+        space = Space.get_by_id(space_id=space_id)
 
-        if instruction is None:
-            return {'message': 'instruction not found'}, HTTPStatus.NOT_FOUND
+        if space is None:
+            return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
         current_user = get_jwt_identity()
 
-        if current_user != instruction.user_id:
+        if current_user != space.user_id:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
-        instruction.is_publish = False
-        instruction.save()
+        space.is_publish = False
+        space.save()
 
         return {}, HTTPStatus.NO_CONTENT
