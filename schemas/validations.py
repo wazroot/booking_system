@@ -10,7 +10,7 @@ class SpaceSchema(Schema):
         ordered = True
     id = fields.Integer(dump_only=True)
     name = fields.String(required=True, validate=[validate.Length(max=100)])
-    capacity = fields.Integer(required=True, validate=[validate.Length(max=100)])
+    capacity = fields.Integer(dump_only=True)
     is_publish = fields.Boolean(dump_only=True)
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
@@ -46,3 +46,14 @@ class SpaceSchema(Schema):
             return {'data': data}
         return data
 
+
+class ReservationSchema(Schema):
+
+    id = fields.Integer(dump_only=True)
+    time = fields.DateTime(dump_only=True)
+    user_id = fields.String(dump_only=True)
+    space_id = fields.Integer(dump_only=True)
+    created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
+    if capacity == 2:
+        user_id.role
