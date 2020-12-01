@@ -1,8 +1,8 @@
 from marshmallow import Schema, fields, post_dump, validate, validates,ValidationError
 from schemas.user import UserSchema
+from flask_jwt_extended import get_jwt_identity
 
-
-class InstructionSchema(Schema):
+class SpaceSchema(Schema):
 
     author = fields.Nested(UserSchema, attribute='user', dump_only=True, only=['id', 'username'])
 
@@ -21,6 +21,7 @@ class InstructionSchema(Schema):
         if n > 50:
             raise ValidationError('Number of steps must not be greater than 50.')
 
+       
     steps = fields.Integer(validate=validate_steps)
 
     def validate_cost(n):
@@ -44,3 +45,4 @@ class InstructionSchema(Schema):
         if many:
             return {'data': data}
         return data
+
