@@ -42,9 +42,9 @@ class SpaceListResource(Resource):
 class SpaceResource(Resource):
 
     @jwt_optional
-    def get(self, instruction_id):#get a spesific space
+    def get(self, space_id):#get a spesific space
 
-        space = Space.get_by_id(instruction_id)
+        space = Space.get_by_id(space_id)
 
 
         if space is None:
@@ -59,47 +59,45 @@ class SpaceResource(Resource):
 
 
     @jwt_required
-    def put(self, instruction_id):
+    def put(self, space_id):#update a spesific spaces atrributes
 
         json_data = request.get_json()
 
-        instruction = Instruction.get_by_id(instruction_id=instruction_id)
+        space = Space.get_by_id(space_id)
 
 
-        if instruction is None:
+        if space is None:
             return {'message': 'instruction not found'}, HTTPStatus.NOT_FOUND
 
         current_user = get_jwt_identity()
 
-        if current_user != instruction.user_id:
+        if current_user != space.user_id:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
-        instruction.name = json_data['name']
-        instruction.description = json_data['description']
-        instruction.steps = json_data['steps']
-        instruction.cost = json_data['cost']
-        instruction.tools = json_data['tools']
-        instruction.duration = json_data['duration']
 
-        instruction.save()
+        space.id = json_data['id']
+        space.name = json_data['name']
+        space.capacity = json_data['capasity']
 
-        return instruction.data(), HTTPStatus.OK
+        space.save()
+
+        return space.data(), HTTPStatus.OK
 
     @jwt_required
-    def delete(self, instruction_id):
+    def delete(self, space_id):#delete a spesific space
 
-        instruction = Instruction.get_by_id(instruction_id=instruction_id)
+        space = Space.get_by_id(space_id)
 
-        if instruction is None:
+        if space is None:
             return {'message': 'instruction not found'}, HTTPStatus.NOT_FOUND
 
         current_user = get_jwt_identity()
 
-        if current_user != instruction.user_id:
+        if current_user != space.user_id:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
 
-        instruction.delete()
+        space.delete()
 
         return {}, HTTPStatus.NO_CONTENT
 
