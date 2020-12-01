@@ -7,7 +7,7 @@ from extensions import db, jwt
 from resources.user import UserListResource, UserResource, MeResource, UserSpaceListResource
 from resources.space import SpaceListResource, SpaceResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
-from resources.reservation import ReservationListResource, ReservationResource, ReservationPublic
+from resources.reservation import ReservationListResource #ReservationResource, ReservationPublic
 
 
 
@@ -46,9 +46,9 @@ def register_resources(app):
     api.add_resource(UserSpaceListResource, '/users/<string:username>/spaces')
     
     api.add_resource(ReservationListResource, '/reservations')
-    api.add_resource(ReservationResource, '/reservations/<int:reservation_id>')
+    '''api.add_resource(ReservationResource, '/reservations/<int:reservation_id>')
     api.add_resource(UserReservationListResource, '/users/<string:username>/reservations')
-    api.add_resource(ReservationPublic, '/reservations/<int:reservation_id>/publish')
+    api.add_resource(ReservationPublic, '/reservations/<int:reservation_id>/publish')'''
     
 
 if __name__ == '__main__':
