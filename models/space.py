@@ -20,7 +20,7 @@ class Space(db.Model):
 
     @classmethod
     def get_by_id(cls, space_id):
-        return cls.query.filter_by(id=space_id).first()     # <---- valittaa "TypeError: get_by_id() missing 1 required positional argument: 'space_id'"
+        return cls.query.filter_by(id=space_id).first()
 
     def save(self):
         db.session.add(self)
