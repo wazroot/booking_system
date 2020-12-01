@@ -1,10 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\.idea",
     "\\models",
     "\\resources",
     "\\schemas"
   ],
-  "SelectedNode": "\\app.py",
+  "SelectedNode": "\\resources\\token.py",
   "PreviewInSolutionExplorer": false
 }
