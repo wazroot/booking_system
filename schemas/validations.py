@@ -55,5 +55,3 @@ class ReservationSchema(Schema):
     space_id = fields.Integer(dump_only=True)
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
-    if capacity == 2:
-        user_id.role
