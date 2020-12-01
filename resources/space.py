@@ -2,10 +2,12 @@
 from flask import request
 from flask_restful import Resource
 from http import HTTPStatus
-from models.instructions import Instruction
+from models.space import Space
+from models.reservation import Reservation
 from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 from schemas.instruction import InstructionSchema
-
+from schemas.validations import InstructionSchema
+# Muista muuttaa importit!!!
 
 
 instruction_schema = InstructionSchema()
@@ -16,9 +18,9 @@ class SpaceListResource(Resource):
 
     def get(self):
 
-        instructions = Instruction.get_all_published()
+        space = Space.get_by_id()
 
-        return instruction_list_schema.dump(instructions).data, HTTPStatus.OK
+        return instruction_list_schema.dump(instructions).data, HTTPStatus.OK #mitä tässä mahtaa tapahtua?
 
     @jwt_required
     def post(self):
@@ -129,7 +131,7 @@ class SpaceResource(Resource):
         return instruction_schema.dump(instruction).data, HTTPStatus.OK
 
 # Muista muuttaa instruction -> space
-class SpacePublic(Resource):
+class SpacePublic(Resource):#Ei tätä taideta tarvita? listaa julkaistut tilat?
     @jwt_required
     def put(self, instruction_id):
         instruction = Instruction.get_by_id(instruction_id=instruction_id)
