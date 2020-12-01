@@ -14,7 +14,7 @@ from models.space import Space                      #Instructions muuttui -> Spa
 from schemas.validations import SpaceSchema
 from schemas.user import UserSchema
 
-#Instructionit pois!                               #instructions_list_schema muuttui -> space_list_schema
+                                                   #instructions_list_schema muuttui -> space_list_schema
 space_list_schema = SpaceSchema(many=True)         #InstructionSchema muuttui -> SpaceSchema
 user_schema = UserSchema()
 user_public_schema = UserSchema(exclude=('email', ))
