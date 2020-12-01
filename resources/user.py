@@ -10,12 +10,12 @@ from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 from http import HTTPStatus
 from webargs import fields
 from webargs.flaskparser import use_kwargs
-from models.space import Instructions
-from schemas.validations import InstructionSchema
+from models.space import Space                      #Instructions muuttui -> Space
+from schemas.validations import SpaceSchema
 from schemas.user import UserSchema
 
-#Instructionit pois!
-instructions_list_schema = InstructionSchema(many=True)
+#Instructionit pois!                               #instructions_list_schema muuttui -> space_list_schema
+space_list_schema = SpaceSchema(many=True)         #InstructionSchema muuttui -> SpaceSchema
 user_schema = UserSchema()
 user_public_schema = UserSchema(exclude=('email', ))
 
@@ -31,8 +31,8 @@ class UserSpaceListResource(Resource):
             pass
         else:
             visibility = 'public'
-        instructions = Instructions.get_all_by_user(user_id=user.id,visibility=visibility)
-        return instructions_list_schema.dump(instructions).data, HTTPStatus.OK
+        space = Space.get_all_by_user(user_id=user.id,visibility=visibility)
+        return space_list_schema.dump(space).data, HTTPStatus.OK
 
 class MeResource(Resource):
     @jwt_required
