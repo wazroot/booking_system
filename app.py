@@ -7,7 +7,7 @@ from extensions import db, jwt
 from resources.user import UserListResource, UserResource, MeResource, UserSpaceListResource
 from resources.space import SpaceListResource, SpaceResource, SpacePublic
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
-# Muista muuttaa importit myöhemmin!!!
+# Muista lisätä importteja myöhemmin!!!
 
 
 def create_app():
@@ -30,6 +30,7 @@ def register_extensions(app):
         jti = decrypted_token['jti']
         return jti in black_list
 
+# Muista lisätä endpointteja myöhemmin!!!
 def register_resources(app):
     api = Api(app)
     api.add_resource(RefreshResource, '/refresh')
@@ -38,9 +39,13 @@ def register_resources(app):
     api.add_resource(UserListResource, '/users')
     api.add_resource(UserResource, '/users/<string:username>')
     api.add_resource(TokenResource, '/token')
-    api.add_resource(SpaceListResource, '/instructions')
-    api.add_resource(SpaceResource, '/instructions/<int:instruction_id>')
-    api.add_resource(SpacePublic, '/instructions/<int:instruction_id>/publish')
-    api.add_resource(UserSpaceListResource, '/users/<string:username>/instructions')
-    # Muista muuttaa endpointit myöhemmin!!!
+    api.add_resource(SpaceListResource, '/spaces')
+    api.add_resource(SpaceResource, '/spaces/<int:space_id>')
+    api.add_resource(SpacePublic, '/spaces/<int:space_id>/publish')
+    api.add_resource(UserSpaceListResource, '/users/<string:username>/spaces')
+    
+
+if __name__ == '__main__':
+    app = create_app()
+    app.run()
     
