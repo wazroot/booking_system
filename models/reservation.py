@@ -25,7 +25,7 @@ class Reservation(db.Model):
 
     @classmethod
     def get_by_user(cls, user):
-        return cls.query.filter_by(user=user).first
+        return cls.query.filter_by(user=user).first()
 
     @classmethod
     def get_by_space(cls, space):

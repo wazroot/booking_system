@@ -18,9 +18,9 @@ class SpaceListResource(Resource):
 
     def get(self):
 
-        instructions = Instruction.get_all_published()
+        space = Space.get_by_id()
 
-        return instruction_list_schema.dump(instructions).data, HTTPStatus.OK
+        return instruction_list_schema.dump(instructions).data, HTTPStatus.OK #mitä tässä mahtaa tapahtua?
 
     @jwt_required
     def post(self):
@@ -131,7 +131,7 @@ class SpaceResource(Resource):
         return instruction_schema.dump(instruction).data, HTTPStatus.OK
 
 # Muista muuttaa instruction -> space
-class SpacePublic(Resource):
+class SpacePublic(Resource):#Ei tätä taideta tarvita? listaa julkaistut tilat?
     @jwt_required
     def put(self, instruction_id):
         instruction = Instruction.get_by_id(instruction_id=instruction_id)

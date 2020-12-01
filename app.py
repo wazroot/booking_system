@@ -41,7 +41,7 @@ def register_resources(app):
     api.add_resource(TokenResource, '/token')
     api.add_resource(SpaceListResource, '/spaces')
     api.add_resource(SpaceResource, '/spaces/<int:space_id>')
-    api.add_resource(SpacePublic, '/spaces/<int:space_id>/publish')
+    api.add_resource(SpacePublic, '/spaces/<int:space_id>/publish')#Tämä taitaa olla meille turha?
     api.add_resource(UserSpaceListResource, '/users/<string:username>/spaces')
     
 
