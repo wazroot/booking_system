@@ -43,8 +43,7 @@ class SpaceResource(Resource):
     @jwt_optional
     def get(self, space_id):#get a spesific space
 
-        space = Space.get_by_id(space_id)
-
+        space = Space.get_by_id(space_id=space_id)
 
         if space is None:
             return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
@@ -52,7 +51,7 @@ class SpaceResource(Resource):
         # current_user = get_jwt_identity()
 
         # if space.is_publish == False and space.user_id != current_user:
-        #     return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
+        #     return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN                
 
         return space_schema.dump(space).data, HTTPStatus.OK
 
