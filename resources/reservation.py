@@ -1,5 +1,5 @@
 from models.reservation import Reservation
-
+from schemas.validations import ReservationSchema
 from flask import request
 from flask_restful import Resource
 from http import HTTPStatus
@@ -9,18 +9,18 @@ from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 
 #Tämä luokka toimii pääasiallisena rajapintana. Tänne metodit joilla tehdään varauksia ja etsitään varauksia käyttäjän id:llä,
 #ja tilan id:llä
+
+# Poistetaan täältä myöhemmin kaikki mitä ei tarvita.
+
 reservation_schema = ReservationSchema()
 reservation_list_schema = ReservationSchema(many=True)
 class ReservationListResource(Resource):
 
     def get(self):
-        reservation = Reservation.get_by_id()
+        
+        reservation = Reservation.get_all_published()
 
-        pass
-        #reservation_list_schema.dump(reservation).data, HTTPStatus.OK
-
-    def post(self):
-        pass
+        return reservation_list_schema.dump(reservation).data, HTTPStatus.OK
 
 
 class ReservationResource(Resource):
