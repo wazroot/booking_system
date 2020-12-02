@@ -21,3 +21,21 @@ class ReservationListResource(Resource):
     def post(self):
         pass
 
+
+class ReservationResource(Resource):
+
+    @jwt_optional
+    def get(self, space_id):
+
+        reservation = Reservation.get_by_id(reservation_id=reservation_id)
+
+        if reservation is None:
+            return {'message': 'reservation not found'}, HTTPStatus.NOT_FOUND
+
+        current_user = get_jwt_identity()
+
+        if reservation.is_publish == False and reservation.user_id != current_user:
+        return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN                
+
+        return reservation_schema.dump(reservation).data, HTTPStatus.OK
+
