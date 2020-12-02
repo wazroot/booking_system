@@ -10,7 +10,6 @@ from resources.token import TokenResource, RefreshResource, RevokeResource, blac
 from resources.reservation import ReservationListResource #ReservationResource, ReservationPublic
 
 
-
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
