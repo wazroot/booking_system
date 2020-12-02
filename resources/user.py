@@ -34,6 +34,10 @@ class UserSpaceListResource(Resource):
         space = Space.get_all_by_user(user_id=user.id,visibility=visibility)
         return space_list_schema.dump(space).data, HTTPStatus.OK
 
+
+#class UserReservationListResource(Resource):
+
+
 class MeResource(Resource):
     @jwt_required
     def get(self):
