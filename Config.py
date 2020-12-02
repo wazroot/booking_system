@@ -1,6 +1,6 @@
 class Config:
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://aku:1234@localhost/testi"
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://admin:12345@localhost/database"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'super-secret-key'
     JWT_ERROR_MESSAGE_KEY = 'message'
