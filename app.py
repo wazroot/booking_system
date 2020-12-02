@@ -7,7 +7,7 @@ from extensions import db, jwt
 from resources.user import UserListResource, UserResource, MeResource, UserSpaceListResource
 from resources.space import SpaceListResource, SpaceResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
-from resources.reservation import ReservationListResource ReservationResource, ReservationPublic
+from resources.reservation import ReservationListResource, ReservationResource, ReservationPublic
 
 
 def create_app():
