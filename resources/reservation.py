@@ -9,7 +9,8 @@ from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 
 #Tämä luokka toimii pääasiallisena rajapintana. Tänne metodit joilla tehdään varauksia ja etsitään varauksia käyttäjän id:llä,
 #ja tilan id:llä
-
+reservation_schema = ReservationSchema()
+reservation_list_schema = ReservationSchema(many=True)
 class ReservationListResource(Resource):
 
     def get(self):
@@ -35,7 +36,7 @@ class ReservationResource(Resource):
         current_user = get_jwt_identity()
 
         if reservation.is_publish == False and reservation.user_id != current_user:
-        return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN                
+            return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN                
 
         return reservation_schema.dump(reservation).data, HTTPStatus.OK
 
