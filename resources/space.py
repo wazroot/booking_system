@@ -12,10 +12,9 @@ from schemas.validations import SpaceSchema
 space_schema = SpaceSchema()
 space_list_schema = SpaceSchema(many=True)
 
-# Muista muuttaa instruction -> space
+
 class SpaceListResource(Resource):
 
-    #get all spaces.
     def get(self):
 
         space = Space.get_by_id()
@@ -26,38 +25,39 @@ class SpaceListResource(Resource):
     def post(self):
 
         json_data = request.get_json()
-        #current_user = get_jwt_identity()
+        current_user = get_jwt_identity()
+        
         data, errors = space_schema.load(data=json_data)
 
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
         space = Space(**data)
-        #instruction.user_id = current_user
+        space.user_id = current_user
         space.save()
 
         return space_schema.dump(space).data, HTTPStatus.CREATED
 
-# Muista muuttaa instruction -> space
+
 class SpaceResource(Resource):
 
     @jwt_optional
-    def get(self, space_id):#get a spesific space
+    def get(self, space_id):
 
         space = Space.get_by_id(space_id=space_id)
 
         if space is None:
             return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
-        # current_user = get_jwt_identity()
+        current_user = get_jwt_identity()
 
-        # if space.is_publish == False and space.user_id != current_user:
-        #     return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN                
+        if space.is_publish == False and space.user_id != current_user:
+        return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN                
 
         return space_schema.dump(space).data, HTTPStatus.OK
 
 
     @jwt_required
-    def put(self, space_id):#update a spesific spaces atrributes
+    def put(self, space_id):
 
         json_data = request.get_json()
 
@@ -82,7 +82,7 @@ class SpaceResource(Resource):
         return space.data(), HTTPStatus.OK
 
     @jwt_required
-    def delete(self, space_id):#delete a spesific space
+    def delete(self, space_id):
 
         space = Space.get_by_id(space_id)
 
@@ -99,39 +99,35 @@ class SpaceResource(Resource):
 
         return {}, HTTPStatus.NO_CONTENT
 
-    # @jwt_required
-    # def patch(self, instruction_id):
-    #     json_data = request.get_json()
-    #
-    #     data, errors = instruction_schema.load(data=json_data, partial=('name',))
-    #
-    #     if errors:
-    #         return {'message': 'Validation errors', 'errors': errors}, HTTPStatus.BAD_REQUEST
-    #
-    #     instruction = Instruction.get_by_id(instruction_id=instruction_id)
-    #
-    #     if instruction is None:
-    #         return {'message': 'Instruction not found'}, HTTPStatus.NOT_FOUND
-    #
-    #     current_user = get_jwt_identity()
-    #
-    #     if current_user != instruction.user_id:
-    #         return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
-    #
-    #     instruction.name = data.get('name') or instruction.name
-    #     instruction.description = data.get('description') or instruction.description
-    #     instruction.steps = data.get('steps') or instruction.steps
-    #     instruction.tools = data.get('tools') or instruction.tools
-    #     instruction.cost = data.get('cost') or instruction.cost
-    #     instruction.duration = data.get('duration') or instruction.duration
-    #     instruction.save()
-    #     return instruction_schema.dump(instruction).data, HTTPStatus.OK
+    @jwt_required
+    def patch(self, space_id):
+        json_data = request.get_json()
 
-# Muista muuttaa instruction -> space
+        data, errors = space_schema.load(data=json_data, partial=('name',))
+
+        if errors:
+            return {'message': 'Validation errors', 'errors': errors}, HTTPStatus.BAD_REQUEST
+
+        space = Space.get_by_id(space_id=space_id)
+
+        if space is None:
+            return {'message': 'Space not found'}, HTTPStatus.NOT_FOUND
+
+        current_user = get_jwt_identity()
+
+        if current_user != space.user_id:
+            return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
+
+        space.name = data.get('name') or space.name
+        space.capacity = data.get('capacity') or space.capacity
+        space.save()
+        return space_schema.dump(space).data, HTTPStatus.OK
+
+
 class SpacePublic(Resource):#Ei tätä taideta tarvita? listaa julkaistut tilat?
     @jwt_required
-    def put(self, instruction_id):
-        space = Space.get_by_id(instruction_id=instruction_id)
+    def put(self, space_id):
+        space = Space.get_by_id(space_id=space_id)
 
         if space is None:
             return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
