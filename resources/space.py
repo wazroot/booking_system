@@ -51,7 +51,7 @@ class SpaceResource(Resource):
         current_user = get_jwt_identity()
 
         if space.is_publish == False and space.user_id != current_user:
-        return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN                
+            return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN                
 
         return space_schema.dump(space).data, HTTPStatus.OK
 
