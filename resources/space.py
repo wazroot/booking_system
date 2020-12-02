@@ -119,11 +119,7 @@ class SpaceResource(Resource):
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
         space.name = data.get('name') or space.name
-        space.description = data.get('description') or space.description
-        space.steps = data.get('steps') or space.steps
-        space.tools = data.get('tools') or space.tools
-        space.cost = data.get('cost') or space.cost
-        space.duration = data.get('duration') or space.duration
+        space.capacity = data.get('capacity') or space.capacity
         space.save()
         return space_schema.dump(space).data, HTTPStatus.OK
 
