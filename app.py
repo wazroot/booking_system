@@ -20,7 +20,7 @@ def create_app():
         config_str = 'config.DevelopmentConfig'
     
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_str)
     app.app_context().push()
     register_extensions(app)
     register_resources(app)
