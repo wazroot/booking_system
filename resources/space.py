@@ -125,4 +125,11 @@ class SpaceResource(Resource):
 
 
 class SpaceCapacityResource(Resource):
-    pass
+
+    def get(self, space_capacity):
+        space = Space.get_by_capacity()
+
+        if space is None:
+            return {'message': 'no space found with given capacity'}, HTTPStatus.NOT_FOUND
+
+        return space_schema.dump(space).data, HTTPStatus.OK

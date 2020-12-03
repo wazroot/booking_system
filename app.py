@@ -5,9 +5,9 @@ from flask_restful import Api
 from Config import Config
 from extensions import db, jwt
 from resources.user import UserListResource, UserResource, MeResource, UserSpaceListResource
-from resources.space import SpaceListResource, SpaceResource
+from resources.space import SpaceListResource, SpaceResource, SpaceCapacityResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
-from resources.reservation import ReservationListResource, ReservationResource, ReservationPublic
+from resources.reservation import ReservationListResource, ReservationResource
 
 
 def create_app():
@@ -42,6 +42,7 @@ def register_resources(app):
     
     api.add_resource(SpaceListResource, '/spaces')
     api.add_resource(SpaceResource, '/spaces/<int:space_id>')
+    api.add_resource(SpaceCapacityResource, '/spaces/<int:space_capacity>')
     api.add_resource(UserSpaceListResource, '/users/<string:username>/spaces')
     
     api.add_resource(ReservationListResource, '/reservations')
