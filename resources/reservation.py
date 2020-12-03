@@ -23,6 +23,19 @@ class ReservationListResource(Resource):
 
         return reservation_list_schema.dump(reservation).data, HTTPStatus.OK
 
+    @jwt_required
+    def post(self):
+        json_data = request.get_json()
+        current_user = get_jwt_identity()
+        data, errors = reservation_schema.load(data=json_data)
+        if errors:
+            return {'message': "Validation errors", 'errors': errors},HTTPStatus.BAD_REQUEST
+        reservation = Reservation(**data)
+        reservation.user_id = current_user
+        reservation.save()
+        return reservation_schema.dump(reservation).data, HTTPStatus.CREATED
+
+
 
 class ReservationResource(Resource):
 
