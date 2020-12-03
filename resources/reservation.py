@@ -17,6 +17,7 @@ reservation_list_schema = ReservationSchema(many=True)
 
 class ReservationListResource(Resource):
 
+    #change this so, that this method returns all reservations.
     def get(self):
         reservation = Reservation.get_all_published()
 
