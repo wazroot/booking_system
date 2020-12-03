@@ -15,9 +15,9 @@ def create_app():
 
     env = os.environ.get('ENV', 'Development')
     if env == 'Production':
-        config_str = 'config.ProductionConfig'
+        config_str = 'Config.ProductionConfig'
     else:
-        config_str = 'config.DevelopmentConfig'
+        config_str = 'Config.DevelopmentConfig'
     
     app = Flask(__name__)
     app.config.from_object(config_str)
