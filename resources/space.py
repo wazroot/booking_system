@@ -124,37 +124,5 @@ class SpaceResource(Resource):
         return space_schema.dump(space).data, HTTPStatus.OK
 
 
-class SpacePublic(Resource):#Ei tätä taideta tarvita? listaa julkaistut tilat?
-    @jwt_required
-    def put(self, space_id):
-        space = Space.get_by_id(space_id=space_id)
-
-        if space is None:
-            return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
-
-        current_user = get_jwt_identity()
-
-        if current_user != space.user_id:
-            return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
-
-        space.is_publish = True
-        space.save()
-
-        return {}, HTTPStatus.NO_CONTENT
-
-    @jwt_required
-    def delete(self, space_id):
-        space = Space.get_by_id(space_id=space_id)
-
-        if space is None:
-            return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
-
-        current_user = get_jwt_identity()
-
-        if current_user != space.user_id:
-            return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
-
-        space.is_publish = False
-        space.save()
-
-        return {}, HTTPStatus.NO_CONTENT
+class SpaceCapacityResource(Resource):
+    pass
