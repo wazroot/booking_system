@@ -1,4 +1,5 @@
 
+import os
 from flask import Flask
 from flask_migrate import Migrate
 from flask_restful import Api
@@ -11,6 +12,13 @@ from resources.reservation import ReservationListResource, ReservationResource
 
 
 def create_app():
+
+    env = os.environ.get('ENV', 'Development')
+    if env == 'Production':
+        config_str = 'config.ProductionConfig'
+    else:
+        config_str = 'config.DevelopmentConfig'
+    
     app = Flask(__name__)
     app.config.from_object(Config)
     app.app_context().push()
@@ -19,6 +27,7 @@ def create_app():
     return app
 
 def register_extensions(app):
+
     db.app = app
     db.init_app(app)
     migrate = Migrate(app, db)
@@ -32,6 +41,7 @@ def register_extensions(app):
 
 
 def register_resources(app):
+
     api = Api(app)
     api.add_resource(RefreshResource, '/refresh')
     api.add_resource(RevokeResource, '/revoke')
@@ -51,6 +61,7 @@ def register_resources(app):
     
 
 if __name__ == '__main__':
+    
     app = create_app()
     app.run()
     

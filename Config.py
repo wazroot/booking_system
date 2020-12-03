@@ -1,8 +1,24 @@
+import os
+
 class Config:
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:12345@localhost/database"
+    
+    DEBUG = False
+    # SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:12345@localhost/database"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'super-secret-key'
     JWT_ERROR_MESSAGE_KEY = 'message'
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
+    
+    
+class DevelopmentConfig(Config):
+    
+    DEBUG = True
+    SECRET_KEY = 'super-secret-key'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://postgres:12345@localhost:5432/database'
+
+
+class ProductionConfig(Config):
+    
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
