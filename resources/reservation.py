@@ -17,7 +17,7 @@ reservation_list_schema = ReservationSchema(many=True)
 
 class ReservationListResource(Resource):
 
-    #change this so, that this method returns all reservations.
+    # change this so, that this method returns all reservations.
     def get(self):
         reservation = Reservation.get_all_published()
 
@@ -104,3 +104,14 @@ class ReservationResource(Resource):
         reservation.save()
 
         return reservation_schema.dump(reservation).data, HTTPStatus.OK
+
+
+class ReservationSpaceTimeResource(Resource):
+
+    def get(self, space_id, user_id):
+        reservation = Reservation.get_by_space_and_user(space_id=space_id, user_id=user_id)
+
+        if reservation is None:
+            return {'message': 'reservations not found'}, HTTPStatus.NOT_FOUND
+
+        return reservation_list_schema.dump(reservation).data, HTTPStatus.OK
