@@ -6,18 +6,18 @@ from http import HTTPStatus
 
 from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 
-
-#Tämä luokka toimii pääasiallisena rajapintana. Tänne metodit joilla tehdään varauksia ja etsitään varauksia käyttäjän id:llä,
-#ja tilan id:llä
+# Tämä luokka toimii pääasiallisena rajapintana. Tänne metodit joilla tehdään varauksia ja etsitään varauksia käyttäjän id:llä,
+# ja tilan id:llä
 
 # Poistetaan täältä myöhemmin kaikki mitä ei tarvita.
 
 reservation_schema = ReservationSchema()
 reservation_list_schema = ReservationSchema(many=True)
+
+
 class ReservationListResource(Resource):
 
     def get(self):
-        
         reservation = Reservation.get_all_published()
 
         return reservation_list_schema.dump(reservation).data, HTTPStatus.OK
@@ -36,7 +36,7 @@ class ReservationResource(Resource):
         current_user = get_jwt_identity()
 
         if reservation.is_publish == False and reservation.user_id != current_user:
-            return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN                
+            return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
         return reservation_schema.dump(reservation).data, HTTPStatus.OK
 
@@ -47,7 +47,6 @@ class ReservationResource(Resource):
 
         reservation = Reservation.get_by_id(reservation_id)
 
-
         if reservation is None:
             return {'message': 'reservation not found'}, HTTPStatus.NOT_FOUND
 
@@ -55,7 +54,6 @@ class ReservationResource(Resource):
 
         if current_user != reservation.user_id:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
-
 
         reservation.id = json_data['id']
         reservation.time = json_data['time']
@@ -76,7 +74,6 @@ class ReservationResource(Resource):
 
         if current_user != reservation.user_id:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
-
 
         reservation.delete()
 
@@ -102,12 +99,14 @@ class ReservationResource(Resource):
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
         reservation.time = data.get('time') or reservation.time
-        
+
         reservation.save()
-        
+
         return reservation_schema.dump(reservation).data, HTTPStatus.OK
 
+
 class ReservationPublic(Resource):
+
     @jwt_required
     def put(self, reservation_id):
         reservation = Reservation.get_by_id(reservation_id=reservation_id)
