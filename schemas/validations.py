@@ -13,7 +13,7 @@ class SpaceSchema(Schema):
     capacity = fields.Integer(dump_only=True)
     #is_publish = fields.Boolean(dump_only=True)
     created_at = fields.DateTime(dump_only=True)
-    updated_at = fields.DateTime(dump_only=True)
+    #updated_at = fields.DateTime(dump_only=True)
 
     def validate_steps(n):
         if n < 1:
