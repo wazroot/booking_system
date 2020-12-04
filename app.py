@@ -59,7 +59,7 @@ def register_resources(app):
     # and updating
     api.add_resource(ReservationSpaceUserResource, '/reservations/<int:space_id>/<int:user_id>')  # to get spaces with
     # space and user id.
-    api.add_resource(ReservationSpaceTimeResource, '/reservations/<int:space_id>/<str:time>')  # to get reservations
+    api.add_resource(ReservationSpaceTimeResource, '/reservations/<int:space_id>/<string:time>')  # to get reservations
     # with space_id and time
     # api.add_resource(UserReservationListResource, '/users/<string:username>/reservations')
 
