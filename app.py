@@ -54,7 +54,7 @@ def register_resources(app):
     api.add_resource(SpaceCapacityResource, '/spaces/<int:space_capacity>')  # to get spaces with specific capacity.
     api.add_resource(ReservationSpaceUserResource, '/spaces/<int:space_id>/<int:user_id>')  # to get spaces with
     # space and user id.
-    api.add_resource(ReservationSpaceTimeResource, '/spaces/<int:space_id>/')
+    api.add_resource(ReservationSpaceTimeResource, '/spaces/<int:space_id>/{?datetime here?}')
     api.add_resource(UserSpaceListResource, '/users/<string:username>/spaces')
 
     api.add_resource(ReservationListResource, '/reservations')
