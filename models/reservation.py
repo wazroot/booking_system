@@ -5,8 +5,8 @@ class Reservation(db.Model):
     __tablename__ = 'reservation'
 
     id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.String(),
-nullable=False)  # this datatype may need to be changed? How do we implement this on a query?
+    time = db.Column(db.String(), nullable=False)  # this datatype may need to be changed? How do we implement this on a query?
+    #tämä kuulu olla näin!
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     space_id = db.Column(db.Integer(), db.ForeignKey('space.id'), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
@@ -22,13 +22,6 @@ nullable=False)  # this datatype may need to be changed? How do we implement thi
     def get_by_id(cls, reservation_id):
         return cls.query.filter_by(id=reservation_id).first()
 
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
 
     @classmethod
     def get_by_user(cls, user_id):
@@ -55,3 +48,11 @@ nullable=False)  # this datatype may need to be changed? How do we implement thi
 
         return date_datetime.date()
 
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
