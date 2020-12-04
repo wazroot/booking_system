@@ -24,11 +24,11 @@ class Reservation(db.Model):
 
 
     @classmethod
-    def get_by_user(cls, user_id):
+    def get_by_user_id(cls, user_id):
         return cls.query.filter_by(user_id=user_id).first()
 
     @classmethod
-    def get_by_space(cls, space_id):
+    def get_by_space_id(cls, space_id):
         return cls.query.filter_by(space_id=space_id).first()
 
     @classmethod
