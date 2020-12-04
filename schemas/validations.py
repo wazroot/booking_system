@@ -48,7 +48,7 @@ class SpaceSchema(Schema):
 class ReservationSchema(Schema):
 
     id = fields.Integer(dump_only=True)
-    time = fields.DateTime(dump_only=True)
+    time = fields.Date(dump_only=True)
     user_id = fields.String(dump_only=True)
     space_id = fields.Integer(dump_only=True)
     created_at = fields.DateTime(dump_only=True)
