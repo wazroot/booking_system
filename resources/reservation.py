@@ -19,7 +19,7 @@ class ReservationListResource(Resource):
 
     # change this so, that this method returns all reservations.
     def get(self):
-        reservation = Reservation.get_all_published()
+        reservation = Reservation.get_all_reservations()
 
         return reservation_list_schema.dump(reservation).data, HTTPStatus.OK
 
@@ -29,12 +29,11 @@ class ReservationListResource(Resource):
         current_user = get_jwt_identity()
         data, errors = reservation_schema.load(data=json_data)
         if errors:
-            return {'message': "Validation errors", 'errors': errors},HTTPStatus.BAD_REQUEST
+            return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
         reservation = Reservation(**data)
         reservation.user_id = current_user
         reservation.save()
         return reservation_schema.dump(reservation).data, HTTPStatus.CREATED
-
 
 
 class ReservationResource(Resource):
@@ -119,10 +118,21 @@ class ReservationResource(Resource):
         return reservation_schema.dump(reservation).data, HTTPStatus.OK
 
 
-class ReservationSpaceTimeResource(Resource):
+class ReservationSpaceUserResource(Resource):
 
     def get(self, space_id, user_id):
         reservation = Reservation.get_by_space_and_user(space_id=space_id, user_id=user_id)
+
+        if reservation is None:
+            return {'message': 'reservations not found'}, HTTPStatus.NOT_FOUND
+
+        return reservation_list_schema.dump(reservation).data, HTTPStatus.OK
+
+
+class ReservationSpaceTimeResource(Resource):
+
+    def get(self, space_id, time):
+        reservation = Reservation.get_by_space_and_time(space_id=space_id, time=time)
 
         if reservation is None:
             return {'message': 'reservations not found'}, HTTPStatus.NOT_FOUND

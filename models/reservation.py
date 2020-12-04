@@ -13,6 +13,11 @@ class Reservation(db.Model):
 
     # updated_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now(), onupdate=db.func.now())
 
+
+    @classmethod
+    def get_all_reservations(cls):
+        return cls.query.filter_by(is_publish=True).all()
+
     @classmethod
     def get_by_id(cls, reservation_id):
         return cls.query.filter_by(id=reservation_id).first()
@@ -41,3 +46,4 @@ class Reservation(db.Model):
     @classmethod
     def get_by_space_and_user(cls, user_id, space_id):
         return cls.query.filter_by(space=space_id, user=user_id).first()
+

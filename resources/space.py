@@ -15,6 +15,7 @@ space_list_schema = SpaceSchema(many=True)
 
 class SpaceListResource(Resource):
 
+    #this method needs to be changed so that it returns all spaces
     def get(self):
 
         space = Space.get_by_id()
