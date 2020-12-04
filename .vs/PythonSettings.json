@@ -1,4 +1,5 @@
 {
   "Interpreter": "Global|PythonCore|3.9",
-  "SuppressPackageInstallationPrompt": true
+  "SuppressPackageInstallationPrompt": true,
+  "SuppressConfigureTestFrameworkPrompt": "true"
 }
