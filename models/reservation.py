@@ -1,11 +1,11 @@
 from extensions import db
-
+from _datetime import datetime as dt
 
 class Reservation(db.Model):
     __tablename__ = 'reservation'
 
     id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.DateTime(),
+    time = db.Column(db.Date(),
                      nullable=False)  # this datatype may need to be changed? How do we implement this on a query?
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     space_id = db.Column(db.Integer(), db.ForeignKey('space.id'), nullable=False)
@@ -16,7 +16,7 @@ class Reservation(db.Model):
 
     @classmethod
     def get_all_reservations(cls):
-        return cls.query.filter_by(is_publish=True).all()
+        return cls.query.all()
 
     @classmethod
     def get_by_id(cls, reservation_id):
@@ -46,4 +46,12 @@ class Reservation(db.Model):
     @classmethod
     def get_by_space_and_user(cls, user_id, space_id):
         return cls.query.filter_by(space=space_id, user=user_id).first()
+
+    @staticmethod
+    def convert_str_to_datetime(self, str_date):
+        date_list = str.split(str_date, '/')
+
+        date_datetime = dt(int(date_list[2]), int(date_list[1]), int(date_list[0]))
+
+        return date_datetime.date()
 

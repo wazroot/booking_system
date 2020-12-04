@@ -132,7 +132,10 @@ class ReservationSpaceUserResource(Resource):
 class ReservationSpaceTimeResource(Resource):
 
     def get(self, space_id, time):
-        reservation = Reservation.get_by_space_and_time(space_id=space_id, time=time)
+
+        time_dt = Reservation.convert_str_to_datetime(time)
+
+        reservation = Reservation.get_by_space_and_time(space_id=space_id, time=time_dt)
 
         if reservation is None:
             return {'message': 'reservations not found'}, HTTPStatus.NOT_FOUND
