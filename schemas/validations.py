@@ -5,23 +5,22 @@ from flask_jwt_extended import get_jwt_identity
 class SpaceSchema(Schema):
 
     author = fields.Nested(UserSchema, attribute='user', dump_only=True, only=['id', 'username'])
+    def validate_capacity(n):
+        if n < 2:
+            raise ValidationError('Capacity must be greater than 1.')
+        if n > 24:
+            raise ValidationError('Capacity must not be greater than 24.')
+
+    capacity = fields.Integer(dump_only=True)
 
     class Meta:
         ordered = True
     id = fields.Integer(dump_only=True)
     name = fields.String(required=True, validate=[validate.Length(max=100)])
-    capacity = fields.Integer(dump_only=True)
+    capacity = fields.Integer(required=True, validate=validate_capacity)
     created_at = fields.DateTime(dump_only=True)
 
 
-    def validate_steps(n):
-        if n < 1:
-            raise ValidationError('Number of steps must be greater than 0.')
-        if n > 50:
-            raise ValidationError('Number of steps must not be greater than 50.')
-
-       
-    steps = fields.Integer(validate=validate_steps)
 
     def validate_cost(n):
         if n < 1:
