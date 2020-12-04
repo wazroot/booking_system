@@ -61,7 +61,7 @@ def register_resources(app):
     # space and user id.
     api.add_resource(ReservationSpaceTimeResource, '/reservations/<int:space_id>/<string:time>')  # to get reservations
     # with space_id and time
-    api.add_resource(UserReservationListResource, '/users/<string:username>/reservations')  # not yet implemented
+    #api.add_resource(UserReservationListResource, '/users/<string:username>/reservations')  # not yet implemented
 
 
 if __name__ == '__main__':
