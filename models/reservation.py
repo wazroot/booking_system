@@ -16,7 +16,7 @@ class Reservation(db.Model):
 
     @classmethod
     def get_all_reservations(cls):
-        return cls.query.filter_by(is_publish=True).all()
+        return cls.query.all()
 
     @classmethod
     def get_by_id(cls, reservation_id):
