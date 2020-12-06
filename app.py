@@ -1,10 +1,11 @@
 import os
-from flask import Flask
+from flask import Flask, request
 from flask_migrate import Migrate
 from flask_restful import Api
+from flask_uploads import configure_uploads, patch_request_class
 from Config import Config
-from extensions import db, jwt
-from resources.user import UserListResource, UserResource, MeResource, UserSpaceListResource
+from extensions import db, jwt, image_set, cache, limiter
+from resources.user import UserListResource, UserResource, MeResource, UserSpaceListResource, UserActivateResource, UserAvatarUploadResource
 from resources.space import SpaceListResource, SpaceResource, SpaceCapacityResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
 from resources.reservation import ReservationListResource, ReservationResource, ReservationUserResource, \
@@ -33,6 +34,10 @@ def register_extensions(app):
     db.init_app(app)
     migrate = Migrate(app, db)
     jwt.init_app(app)
+    configure_uploads(app, image_set)
+    patch_request_class(app, 10 * 1024 * 1024)
+    cache.init_app(app)
+    limiter.init_app(app)
 
     @jwt.token_in_blacklist_loader
     def check_if_token_in_blacklist(decrypted_token):
@@ -46,6 +51,8 @@ def register_resources(app):
     api.add_resource(RevokeResource, '/revoke')
     api.add_resource(MeResource, '/me')
     api.add_resource(UserListResource, '/users')
+    api.add_resource(UserActivateResource, '/users/activate/<string:token>')
+    api.add_resource(UserAvatarUploadResource, '/users/avatar')
     api.add_resource(UserResource, '/users/<string:username>')
     api.add_resource(TokenResource, '/token')
 
