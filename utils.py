@@ -12,8 +12,10 @@ from extensions import image_set, cache
 def hash_password(password):
     return pbkdf2_sha256.hash(password)
 
+
 def check_password(password, hashed):
     return pbkdf2_sha256.verify(password, hashed)
+
 
 def generate_token(email, salt=None):
     serializer = URLSafeTimedSerializer(current_app.config.get('SECRET_KEY'))
