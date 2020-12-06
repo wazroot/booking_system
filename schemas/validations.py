@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields, post_dump, validate, validates,ValidationError
 from schemas.user import UserSchema
+from schemas.pagination import PaginationSchema
 from flask_jwt_extended import get_jwt_identity
 
 class SpaceSchema(Schema):
@@ -64,3 +65,6 @@ class ReservationSchema(Schema):
     #    if newtime == fields.DateTime(time):
     #        raise ValidationError('already taken')
     #time = fields.DateTime(required=True, validates=validates_time)
+
+class ReservationPaginationSchema(PaginationSchema):
+    data = fields.Nested(ReservationSchema, attribute='items', many=True)
