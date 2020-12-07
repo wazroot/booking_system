@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_uploads import configure_uploads, patch_request_class
 from Config import Config
 from extensions import db, jwt, image_set, cache, limiter
-from resources.user import UserListResource, UserResource, MeResource, UserReservationListResource, UserActivateResource, UserAvatarUploadResource
+from resources.user import UserListResource, UserResource, MeResource
 from resources.space import SpaceListResource, SpaceResource, SpaceCapacityResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
 from resources.reservation import ReservationListResource, ReservationResource, ReservationUserResource, \
@@ -51,8 +51,6 @@ def register_resources(app):
     api.add_resource(RevokeResource, '/revoke')
     api.add_resource(MeResource, '/me')  # get me identity.
     api.add_resource(UserListResource, '/users')  # create a new user.
-    api.add_resource(UserActivateResource, '/users/activate/<string:token>')  # what is this?
-    api.add_resource(UserAvatarUploadResource, '/users/avatar')   # what is this?
     api.add_resource(UserResource, '/users/<string:username>')  # get a user by username.
     api.add_resource(TokenResource, '/token')
 
@@ -67,8 +65,6 @@ def register_resources(app):
     # with a specific user id.
     api.add_resource(ReservationSpaceResource, '/reservations/<int:space_id>')  # to get all reservations
     # with a specific space_id.
-
-
 
 
 if __name__ == '__main__':

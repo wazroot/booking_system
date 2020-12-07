@@ -6,10 +6,9 @@ from http import HTTPStatus
 
 from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 
-# Tämä luokka toimii pääasiallisena rajapintana. Tänne metodit joilla tehdään varauksia ja etsitään varauksia käyttäjän id:llä,
-# ja tilan id:llä
+'''This is our main interface. Here we CRUD a reservation, get reservations for a 
+specific user and reservations for a specific space.'''
 
-# Poistetaan täältä myöhemmin kaikki mitä ei tarvita.
 
 reservation_schema = ReservationSchema()
 reservation_list_schema = ReservationSchema(many=True)
