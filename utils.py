@@ -1,6 +1,5 @@
 
 import os
-from flask_uploads import extension
 from passlib.hash import pbkdf2_sha256
 from itsdangerous import URLSafeTimedSerializer
 from flask import current_app

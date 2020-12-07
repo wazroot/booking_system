@@ -4,16 +4,13 @@ from flask_restful import Resource
 from http import HTTPStatus
 from utils import hash_password, generate_token, verify_token
 from models.user import User
-from flask_jwt_extended import jwt_optional, get_jwt_identity
 from flask_jwt_extended import jwt_optional, get_jwt_identity, jwt_required
 from schemas.user import UserSchema
-from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 from http import HTTPStatus
 from webargs import fields
 from webargs.flaskparser import use_kwargs
 from models.space import Space  # Instructions muuttui -> Space
 from schemas.validations import SpaceSchema
-from schemas.user import UserSchema
 
 # instructions_list_schema muuttui -> space_list_schema
 space_list_schema = SpaceSchema(many=True)  # InstructionSchema muuttui -> SpaceSchema

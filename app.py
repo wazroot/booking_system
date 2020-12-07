@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from Config import Config
 from extensions import db, jwt
-from resources.user import UserListResource, UserResource, MeResource, UserReservationListResource, UserActivateResource
+from resources.user import UserListResource, UserResource, MeResource, UserActivateResource
 from resources.space import SpaceListResource, SpaceResource, SpaceCapacityResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
 from resources.reservation import ReservationListResource, ReservationResource, ReservationUserResource, \

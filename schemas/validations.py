@@ -1,6 +1,5 @@
 from marshmallow import Schema, fields, post_dump, validate, validates,ValidationError
 from schemas.user import UserSchema
-from schemas.pagination import PaginationSchema
 from flask_jwt_extended import get_jwt_identity
 
 class SpaceSchema(Schema):
