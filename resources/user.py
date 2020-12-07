@@ -79,3 +79,20 @@ class UserListResource(Resource):
         text = 'Hi, Thanks for using our Booking system! Please confirm your registration by clicking on the link: {}'.format(link)
         mailgun.send_email(to=user.email, subject=subject, text=text)
         return user_schema.dump(user).data, HTTPStatus.CREATED
+
+
+class UserActivateResource(Resource):
+    def get(self, token):
+        email = verify_token(token, salt='activate')
+        if email is False:
+            return {'message': 'Invalid token or token expired'}, HTTPStatus.BAD_REQUEST
+
+        user = User.get_by_email(email=email)
+        if not user:
+            return {'message': 'User not found'}, HTTPStatus.NOT_FOUND
+        if user.is_active is True:
+            return {'message': 'The user account is already activated'}, HTTPStatus.BAD_REQUEST
+        
+        user.is_active = True
+        user.save()
+        return {}, HTTPStatus.NO_CONTENT
