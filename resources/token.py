@@ -23,7 +23,8 @@ class TokenResource(Resource):
         user = User.get_by_email(email=email)
         if not user or not check_password(password, user.password):
             return {'message': 'username or password is incorrect'},HTTPStatus.UNAUTHORIZED
-
+        if user.is_active is False:
+            return {'message': 'The user account is not activated yet'}, HTTPStatus.FORBIDDEN
         access_token = create_access_token(identity=user.id, fresh=True)
         refresh_token = create_refresh_token(identity=user.id)
         return {'access_token': access_token, 'refresh_token': refresh_token}, HTTPStatus.OK
