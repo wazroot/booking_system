@@ -2,9 +2,8 @@ import os
 from flask import Flask, request
 from flask_migrate import Migrate
 from flask_restful import Api
-from flask_uploads import configure_uploads, patch_request_class
 from Config import Config
-from extensions import db, jwt, image_set, cache, limiter
+from extensions import db, jwt
 from resources.user import UserListResource, UserResource, MeResource, UserReservationListResource, UserActivateResource
 from resources.space import SpaceListResource, SpaceResource, SpaceCapacityResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
