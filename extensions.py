@@ -7,6 +7,3 @@ from flask_limiter.util import get_remote_address
 
 db = SQLAlchemy()
 jwt = JWTManager()
-image_set = UploadSet('images', IMAGES)
-cache = Cache()
-limiter = Limiter(key_func=get_remote_address)

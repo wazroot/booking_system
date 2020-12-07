@@ -34,10 +34,7 @@ def register_extensions(app):
     db.init_app(app)
     migrate = Migrate(app, db)
     jwt.init_app(app)
-    configure_uploads(app, image_set)
-    patch_request_class(app, 10 * 1024 * 1024)
-    cache.init_app(app)
-    limiter.init_app(app)
+    
 
     @jwt.token_in_blacklist_loader
     def check_if_token_in_blacklist(decrypted_token):
@@ -51,8 +48,6 @@ def register_resources(app):
     api.add_resource(RevokeResource, '/revoke')
     api.add_resource(MeResource, '/me')  # get me identity.
     api.add_resource(UserListResource, '/users')  # create a new user.
-    api.add_resource(UserActivateResource, '/users/activate/<string:token>')  # what is this?
-    api.add_resource(UserAvatarUploadResource, '/users/avatar')   # what is this?
     api.add_resource(UserResource, '/users/<string:username>')  # get a user by username.
     api.add_resource(TokenResource, '/token')
 

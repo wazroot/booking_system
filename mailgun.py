@@ -1,6 +1,4 @@
-
 import requests
-
 
 class MailgunApi:
 
@@ -17,7 +15,7 @@ class MailgunApi:
             to = [to, ]
 
         data = {
-            'from': 'SmileCook <no-reply@{}>'.format(self.domain),
+            'from': 'Project team booking system <no-reply@{}>'.format(self.domain),
             'to': to,
             'subject': subject,
             'text': text,

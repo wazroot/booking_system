@@ -1,7 +1,8 @@
-from flask import request
+from flask import request, url_for
+from mailgun import MailgunApi
 from flask_restful import Resource
 from http import HTTPStatus
-from utils import hash_password
+from utils import hash_password, generate_token, verify_token
 from models.user import User
 from flask_jwt_extended import jwt_optional, get_jwt_identity
 from flask_jwt_extended import jwt_optional, get_jwt_identity, jwt_required
@@ -18,6 +19,9 @@ from schemas.user import UserSchema
 space_list_schema = SpaceSchema(many=True)  # InstructionSchema muuttui -> SpaceSchema
 user_schema = UserSchema()
 user_public_schema = UserSchema(exclude=('email',))
+mailgun = MailgunApi(domain='sandboxe6b1c63a9c6c44a39c6525059bd73550.mailgun.org',
+ api_key='eee238a177c8cf694348fec9b10efbfd-95f6ca46-63e18c82')
+
 
 
 # class UserSpaceListResource(Resource):
@@ -69,4 +73,9 @@ class UserListResource(Resource):
             return {'message': 'email already used'}, HTTPStatus.BAD_REQUEST
         user = User(**data)
         user.save()
+        token = generate_token(user.email, salt='activate')
+        subject = 'Please confirm your registration.'
+        link = url_for('useractivateresource', token=token, _external=True)
+        text = 'Hi, Thanks for using our Booking system! Please confirm your registration by clicking on the link: {}'.format(link)
+        mailgun.send_email(to=user.email, subject=subject, text=text)
         return user_schema.dump(user).data, HTTPStatus.CREATED
