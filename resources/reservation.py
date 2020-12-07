@@ -34,7 +34,7 @@ class ReservationListResource(Resource):
         # if any reservations already exists for chosen space at a given time
         # give an error message
         for reservation in all_reservations:
-            if reservation.time == json_data['time'] & reservation.space_id == json_data['space_id']:
+            if reservation.time == json_data['time'] and reservation.space_id == json_data['space_id']:
                 return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
 
         if errors:
@@ -57,7 +57,7 @@ class ReservationResource(Resource):
 
         current_user = get_jwt_identity()
 
-        if reservation.is_publish == False and reservation.user_id != current_user:
+        if reservation.user_id != current_user:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
         return reservation_schema.dump(reservation).data, HTTPStatus.OK

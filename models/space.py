@@ -32,3 +32,6 @@ class Space(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    def get_all_spaces(self):
+        return self.query.all()
