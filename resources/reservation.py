@@ -130,7 +130,7 @@ class ReservationResource(Resource):
 class ReservationUserResource(Resource):
 
     def get(self, user_id):
-        reservation = Reservation.get_by_user_id(user_id=user_id)
+        reservation = Reservation.get_all_by_user_id(user_id=user_id)
 
         if reservation is None:
             return {'message': 'reservations not found'}, HTTPStatus.NOT_FOUND
@@ -141,7 +141,7 @@ class ReservationUserResource(Resource):
 class ReservationSpaceResource(Resource):
 
     def get(self, space_id):
-        reservation = Reservation.get_by_space_id(space_id=space_id)
+        reservation = Reservation.get_all_by_space_id(space_id=space_id)
 
         if reservation is None:
             return {'message': 'reservations not found'}, HTTPStatus.NOT_FOUND

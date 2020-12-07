@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_uploads import configure_uploads, patch_request_class
 from Config import Config
 from extensions import db, jwt, image_set, cache, limiter
-from resources.user import UserListResource, UserResource, MeResource, UserSpaceListResource, UserActivateResource, UserAvatarUploadResource
+from resources.user import UserListResource, UserResource, MeResource, UserReservationListResource, UserActivateResource, UserAvatarUploadResource
 from resources.space import SpaceListResource, SpaceResource, SpaceCapacityResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
 from resources.reservation import ReservationListResource, ReservationResource, ReservationUserResource, \
@@ -49,11 +49,11 @@ def register_resources(app):
     api = Api(app)
     api.add_resource(RefreshResource, '/refresh')
     api.add_resource(RevokeResource, '/revoke')
-    api.add_resource(MeResource, '/me')
-    api.add_resource(UserListResource, '/users')
-    api.add_resource(UserActivateResource, '/users/activate/<string:token>')
-    api.add_resource(UserAvatarUploadResource, '/users/avatar')
-    api.add_resource(UserResource, '/users/<string:username>')
+    api.add_resource(MeResource, '/me')  # get me identity.
+    api.add_resource(UserListResource, '/users')  # create a new user.
+    api.add_resource(UserActivateResource, '/users/activate/<string:token>')  # what is this?
+    api.add_resource(UserAvatarUploadResource, '/users/avatar')   # what is this?
+    api.add_resource(UserResource, '/users/<string:username>')  # get a user by username.
     api.add_resource(TokenResource, '/token')
 
     api.add_resource(SpaceListResource, '/spaces')  # to add spaces and get all spaces.

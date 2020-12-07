@@ -31,19 +31,12 @@ class Reservation(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_by_user_id(cls, user_id):
-        return cls.query.filter_by(user_id=user_id).first()
+    def get_all_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
 
     @classmethod
-    def get_by_space_id(cls, space_id):
-        return cls.query.filter_by(space_id=space_id).first()
+    def get_all_by_space_id(cls, space_id):
+        return cls.query.filter_by(space_id=space_id).all()
 
-    @classmethod
-    def get_by_space_and_time(cls, space_id, time):
-        # what time format are we going to use?
-        return cls.query.filter_by(space_id=space_id, time=time).first()
 
-    @classmethod
-    def get_by_space_and_user(cls, user_id, space_id):
-        return cls.query.filter_by(space=space_id, user=user_id).first()
 
