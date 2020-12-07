@@ -123,4 +123,4 @@ class SpaceCapacityResource(Resource):
         if space is None:
             return {'message': 'no space found with given capacity'}, HTTPStatus.NOT_FOUND
 
-        return space_schema.dump(space).data, HTTPStatus.OK
+        return space_list_schema.dump(space).data, HTTPStatus.OK
