@@ -32,7 +32,7 @@ class ReservationListResource(Resource):
         all_reservations = Reservation.get_all_reservations()
 
         # if any reservations already exists for chosen space at a given time
-        # give an error message
+        # give an error message, this might be useless as Aku has already put some validations for this.
         for reservation in all_reservations:
             if reservation.time == json_data['time'] and reservation.space_id == json_data['space_id']:
                 return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
