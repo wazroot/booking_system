@@ -66,5 +66,3 @@ class ReservationSchema(Schema):
     #        raise ValidationError('already taken')
     #time = fields.DateTime(required=True, validates=validates_time)
 
-class ReservationPaginationSchema(PaginationSchema):
-    data = fields.Nested(ReservationSchema, attribute='items', many=True)
