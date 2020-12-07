@@ -23,7 +23,7 @@ class Space(db.Model):
         return cls.query.filter_by(id=space_id).first()
 
     def get_by_capacity(cls, space_capacity):
-        return cls.query.filter_by(capacity=space_capacity).first()
+        return cls.query.filter_by(capacity=space_capacity).all()
 
     def save(self):
         db.session.add(self)
