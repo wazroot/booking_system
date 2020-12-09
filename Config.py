@@ -14,7 +14,7 @@ class DevelopmentConfig(Config):
     
     DEBUG = True
     SECRET_KEY = 'super-secret-key'
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wazroot:19Piippolanvaari88@localhost/projekti'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://postgres:12345@localhost/database'
 
 
 class ProductionConfig(Config):
