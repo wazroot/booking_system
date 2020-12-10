@@ -5,6 +5,8 @@ from flask_jwt_extended import get_jwt_identity
 class SpaceSchema(Schema):
 
     author = fields.Nested(UserSchema, attribute='user', dump_only=True, only=['id', 'username'])
+
+    @validates('capacity')
     def validate_capacity(n):
         if n < 2:
             raise ValidationError('Capacity must be greater than 1.')
