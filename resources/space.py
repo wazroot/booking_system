@@ -17,7 +17,7 @@ class SpaceListResource(Resource):
 
         return space_list_schema.dump(space).data, HTTPStatus.OK
 
-    #@jwt_required
+    @jwt_required
     def post(self):
         json_data = request.get_json()
         current_user = get_jwt_identity()
