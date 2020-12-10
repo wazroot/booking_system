@@ -1,14 +1,25 @@
 from extensions import db
+from flask_jwt_extended import jwt_optional, get_jwt_identity, jwt_required
+from schemas.user import UserSchema
+from http import HTTPStatus
 
+
+user_schema = UserSchema()
 
 class Reservation(db.Model):
     __tablename__ = 'reservation'
 
-    id = db.Column(db.Integer, primary_key=True)
+
+    #@jwt_required
+    #def currentuser():
+    #    user = User.get_by_id(id=get_jwt_identity())
+    #    return user_schema.dump(user).data, HTTPStatus.OK
+
+    id = db.Column(db.Integer(), primary_key=True)
     time = db.Column(db.DateTime(),
                      nullable=False)  # this datatype may need to be changed? How do we implement this on a query?
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
-    space_id = db.Column(db.Integer(), db.ForeignKey('space.id'), nullable=False)
+    user_id = currentuser()
+    space_id = db.Column(db.Integer(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
 
     # updated_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now(), onupdate=db.func.now())
