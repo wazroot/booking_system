@@ -21,7 +21,7 @@ class SpaceSchema(Schema):
     created_at = fields.DateTime(dump_only=True)
 
 
-
+    '''
     def validate_cost(n):
         if n < 1:
             raise ValidationError('cost must be greater than 0.')
@@ -30,6 +30,7 @@ class SpaceSchema(Schema):
     cost=fields.Integer(validate=validate_cost)
     duration = fields.Integer()
 
+    
     @validates('duration')
     def validate_duration(self, value):
         if value < 1:
@@ -37,6 +38,7 @@ class SpaceSchema(Schema):
 
         if value > 300:
             raise ValidationError('Duration time must not be greater than 300.')
+        '''
 
     @post_dump(pass_many=True)
     def wrap(self, data, many, **kwargs):
