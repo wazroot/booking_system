@@ -1,10 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\migrations",
+    "\\migrations\\versions",
     "\\models",
     "\\resources",
     "\\schemas"
   ],
-  "SelectedNode": "\\models\\reservation.py",
+  "SelectedNode": "\\resources\\reservation.py",
   "PreviewInSolutionExplorer": false
 }

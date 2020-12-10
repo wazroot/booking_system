@@ -1,12 +1,12 @@
 from extensions import db
-from datetime import datetime as dt
+
 
 class Reservation(db.Model):
     __tablename__ = 'reservation'
 
     id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.String(), nullable=False)  # this datatype may need to be changed? How do we implement this on a query?
-    #tämä kuulu olla näin!
+    time = db.Column(db.DateTime(),
+                     nullable=False)  # this datatype may need to be changed? How do we implement this on a query?
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     space_id = db.Column(db.Integer(), db.ForeignKey('space.id'), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
@@ -20,35 +20,8 @@ class Reservation(db.Model):
 
     @classmethod
     def get_by_id(cls, reservation_id):
-        return cls.query.filter_by(id=reservation_id).first()
+        return cls.query.filter_by(id=reservation_id).first()  # cls.query.get(id=reservation_id) voisi olla parempi tähän
 
-
-    @classmethod
-    def get_by_user(cls, user_id):
-        return cls.query.filter_by(user_id=user_id).first()
-
-    @classmethod
-    def get_by_space(cls, space_id):
-        return cls.query.filter_by(space_id=space_id).first()
-
-    @classmethod
-    def get_by_space_and_time(cls, space_id, time):
-        # what time format are we going to use?
-        return cls.query.filter_by(space_id=space_id, time=time).first()
-
-    @classmethod
-    def get_by_space_and_user(cls, user_id, space_id):
-        return cls.query.filter_by(space=space_id, user=user_id).first()
-
-    @classmethod
-    def convert_str_to_datetime(cls):
-        date_list = str.split(cls, '/')
-
-        date_datetime = dt(int(date_list[2]), int(date_list[1]), int(date_list[0]))
-
-        return date_datetime.date()
-
-    
     def save(self):
         db.session.add(self)
         db.session.commit()
@@ -56,3 +29,14 @@ class Reservation(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    @classmethod
+    def get_all_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
+
+    @classmethod
+    def get_all_by_space_id(cls, space_id):
+        return cls.query.filter_by(space_id=space_id).all()
+
+
+

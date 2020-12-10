@@ -64,3 +64,4 @@ class ReservationSchema(Schema):
     #    if newtime == fields.DateTime(time):
     #        raise ValidationError('already taken')
     #time = fields.DateTime(required=True, validates=validates_time)
+

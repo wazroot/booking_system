@@ -27,6 +27,16 @@ class ReservationListResource(Resource):
         json_data = request.get_json()
         current_user = get_jwt_identity()
         data, errors = reservation_schema.load(data=json_data)
+
+        # get all reservations and make it a list
+        all_reservations = Reservation.get_all_reservations()
+
+        # if any reservations already exists for chosen space at a given time
+        # give an error message, this might be useless as Aku has already put some validations for this.
+        for reservation in all_reservations:
+            if reservation.time == json_data['time'] and reservation.space_id == json_data['space_id']:
+                return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
+
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
         reservation = Reservation(**data)
@@ -47,7 +57,7 @@ class ReservationResource(Resource):
 
         current_user = get_jwt_identity()
 
-        if reservation.is_publish == False and reservation.user_id != current_user:
+        if reservation.user_id != current_user:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
         return reservation_schema.dump(reservation).data, HTTPStatus.OK
@@ -117,23 +127,10 @@ class ReservationResource(Resource):
         return reservation_schema.dump(reservation).data, HTTPStatus.OK
 
 
-class ReservationSpaceUserResource(Resource):
+class ReservationUserResource(Resource):
 
-    def get(self, space_id, user_id):
-        reservation = Reservation.get_by_space_and_user(space_id=space_id, user_id=user_id)
-
-        if reservation is None:
-            return {'message': 'reservations not found'}, HTTPStatus.NOT_FOUND
-
-        return reservation_list_schema.dump(reservation).data, HTTPStatus.OK
-
-
-class ReservationSpaceTimeResource(Resource):
-
-    def get(self, space_id, time):
-        time_dt = Reservation.convert_str_to_datetime(time)
-
-        reservation = Reservation.get_by_space_and_time(space_id=space_id, time=time_dt)
+    def get(self, user_id):
+        reservation = Reservation.get_all_by_user_id(user_id=user_id)
 
         if reservation is None:
             return {'message': 'reservations not found'}, HTTPStatus.NOT_FOUND
@@ -141,6 +138,12 @@ class ReservationSpaceTimeResource(Resource):
         return reservation_list_schema.dump(reservation).data, HTTPStatus.OK
 
 
-class UserReservationListResource(Reservation):
-    # define interface for listing reservations for a specific user
-    pass
+class ReservationSpaceResource(Resource):
+
+    def get(self, space_id):
+        reservation = Reservation.get_all_by_space_id(space_id=space_id)
+
+        if reservation is None:
+            return {'message': 'reservations not found'}, HTTPStatus.NOT_FOUND
+
+        return reservation_list_schema.dump(reservation).data, HTTPStatus.OK

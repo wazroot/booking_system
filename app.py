@@ -1,14 +1,14 @@
 import os
-from flask import Flask
+from flask import Flask, request
 from flask_migrate import Migrate
 from flask_restful import Api
 from Config import Config
 from extensions import db, jwt
-from resources.user import UserListResource, UserResource, MeResource, UserSpaceListResource
+from resources.user import UserListResource, UserResource, MeResource, UserActivateResource
 from resources.space import SpaceListResource, SpaceResource, SpaceCapacityResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
-from resources.reservation import ReservationListResource, ReservationResource, ReservationSpaceUserResource, \
-    ReservationSpaceTimeResource, UserReservationListResource
+from resources.reservation import ReservationListResource, ReservationResource, ReservationUserResource, \
+    ReservationSpaceResource
 
 
 def create_app():
@@ -33,6 +33,7 @@ def register_extensions(app):
     db.init_app(app)
     migrate = Migrate(app, db)
     jwt.init_app(app)
+    
 
     @jwt.token_in_blacklist_loader
     def check_if_token_in_blacklist(decrypted_token):
@@ -44,24 +45,25 @@ def register_resources(app):
     api = Api(app)
     api.add_resource(RefreshResource, '/refresh')
     api.add_resource(RevokeResource, '/revoke')
-    api.add_resource(MeResource, '/me')
-    api.add_resource(UserListResource, '/users')
-    api.add_resource(UserResource, '/users/<string:username>')
+    api.add_resource(MeResource, '/me')  # get me identity.
+    api.add_resource(UserListResource, '/users')  # create a new user.
+    api.add_resource(UserResource, '/users/<string:username>')  # get a user by username.
+    api.add_resource(UserActivateResource, '/users/activate/<string:token>') # end point for MailgunApi
     api.add_resource(TokenResource, '/token')
 
     api.add_resource(SpaceListResource, '/spaces')  # to add spaces and get all spaces.
     api.add_resource(SpaceResource, '/spaces/<int:space_id>')  # to get specific space by id and updating.
     api.add_resource(SpaceCapacityResource, '/spaces/<int:space_capacity>')  # to get spaces with specific capacity.
-    api.add_resource(UserSpaceListResource, '/users/<string:username>/spaces')
 
     api.add_resource(ReservationListResource, '/reservations')  # to get all reservations and add reservations
     api.add_resource(ReservationResource, '/reservations/<int:reservation_id>')  # to get a specific reservation by id
     # and updating
-    api.add_resource(ReservationSpaceUserResource, '/reservations/<int:space_id>/<int:user_id>')  # to get spaces with
-    # space and user id.
-    api.add_resource(ReservationSpaceTimeResource, '/reservations/<int:space_id>/<string:time>')  # to get reservations
-    # with space_id and time
-    #api.add_resource(UserReservationListResource, '/users/<string:username>/reservations')  # not yet implemented
+    api.add_resource(ReservationUserResource, '/reservations/<int:user_id>')  # to get all reservations
+    # with a specific user id.
+    api.add_resource(ReservationSpaceResource, '/reservations/<int:space_id>')  # to get all reservations
+    # with a specific space_id.
+
+
 
 
 if __name__ == '__main__':
