@@ -21,7 +21,7 @@ class Space(db.Model):
     @classmethod
     def get_by_id(cls, space_id):
         return cls.query.filter_by(id=space_id).first()
-
+    @classmethod
     def get_by_capacity(cls, space_capacity):
         return cls.query.filter_by(capacity=space_capacity).all()
 
