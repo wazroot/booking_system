@@ -11,13 +11,14 @@ class Space(db.Model):
 
     reservations = db.relationship('Reservation', backref='space')
 
+    '''
     def data(self):
         return {
             'id': self.id,
             'name': self.name,
             'capacity': self.capacity
         }
-
+    '''
     @classmethod
     def get_by_id(cls, space_id):
         return cls.query.filter_by(id=space_id).first()
