@@ -79,6 +79,8 @@ class ReservationResource(Resource):
 
         reservation.id = json_data['id']
         reservation.time = json_data['time']
+        reservation.user_id = json_data['user_id']
+        reservation.space_id = json_data['space_id']
 
         reservation.save()
 
