@@ -55,13 +55,7 @@ class ReservationSchema(Schema):
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
 
-    # @validates('time') #en tiedä käytetäänkö tätä?
-    # def validate_time(self,f):
-    #    time=fields.Date(required=True)
-    #    if f == time:
-    #        raise ValidationError('already taken')
-
-    # def validates_time(newtime):
-    #    if newtime == fields.DateTime(time):
-    #        raise ValidationError('already taken')
-    # time = fields.DateTime(required=True, validates=validates_time)
+    '''@validates('time')
+    def validate_time(self,f):
+        if f == time:
+            raise ValidationError('already taken')'''
