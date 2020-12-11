@@ -57,7 +57,7 @@ class ReservationResource(Resource):
 
         current_user = get_jwt_identity()
 
-        if reservation.user_id != current_user:
+        if reservation.user_id != current_user or current_user is None:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
         return reservation_schema.dump(reservation).data, HTTPStatus.OK
