@@ -9,12 +9,6 @@ user_schema = UserSchema()
 class Reservation(db.Model):
     __tablename__ = 'reservation'
 
-
-    #@jwt_required
-    #def currentuser():
-    #    user = User.get_by_id(id=get_jwt_identity())
-    #    return user_schema.dump(user).data, HTTPStatus.OK
-
     id = db.Column(db.Integer(), primary_key=True)
     time = db.Column(db.DateTime(), nullable=False)
     user_id = db.Column(db.Integer())
