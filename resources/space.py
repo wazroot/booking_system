@@ -27,7 +27,7 @@ class SpaceListResource(Resource):
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
         space = Space(**data)
-        #space.user_id = current_user
+        space.user_id = current_user
         space.save()
 
         try:

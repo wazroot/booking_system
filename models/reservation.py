@@ -16,8 +16,7 @@ class Reservation(db.Model):
     #    return user_schema.dump(user).data, HTTPStatus.OK
 
     id = db.Column(db.Integer(), primary_key=True)
-    time = db.Column(db.DateTime(),
-                     nullable=False)  # this datatype may need to be changed? How do we implement this on a query?
+    time = db.Column(db.DateTime(), nullable=False)
     user_id = db.Column(db.Integer(), nullable=False)
     space_id = db.Column(db.Integer(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
