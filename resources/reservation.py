@@ -36,7 +36,7 @@ class ReservationListResource(Resource):
         for i in range(0, (list(all_reservations).count(all_reservations)-1)):
             if all_reservations[i]["time"] == json_data['time'] and all_reservations[i]["space_id"] == json_data['space_id']:
                 return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
-
+        
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
         reservation = Reservation(**data)
