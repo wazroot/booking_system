@@ -6,26 +6,21 @@ from flask_jwt_extended import get_jwt_identity
 class SpaceSchema(Schema):
     author = fields.Nested(UserSchema, attribute='user', dump_only=True, only=['id', 'username'])
 
-
-    def validate_capacity(n):
-        if n < 2:
-            raise ValidationError('Capacity must be greater than 1.')
-        if n > 24:
-            raise ValidationError('Capacity must not be greater than 24.')
+    #@validates('capacity')
+    #def validate_capacity(n):
+    #    if n < 2:
+    #        raise ValidationError('Capacity must be greater than 1.')
+    #    if n > 24:
+    #        raise ValidationError('Capacity must not be greater than 24.')
 
     class Meta:
         ordered = True
 
     id = fields.Integer(dump_only=True)
     name = fields.String(required=True, validate=[validate.Length(max=100)])
-    capacity = fields.Integer(required=True, validate=validate_capacity)
+    capacity = fields.Integer(required=True)
     created_at = fields.DateTime(dump_only=True)
 
-    #def validate_capacity(n):
-    #    if n < 2:
-    #        raise ValidationError('Capacity must be greater than 1.')
-    #    if n > 24:
-    #        raise ValidationError('Capacity must not be greater than 24.')
     '''
     def validate_cost(n):
         if n < 1:
@@ -53,27 +48,14 @@ class SpaceSchema(Schema):
 
 
 class ReservationSchema(Schema):
-    class Meta:
-        ordered = True
-
-    #def validate_time(value):
-    #   time = fields.Date(required=True)
-    #   if value == time :
-    #       raise ValidationError('already taken')
-    #   return time
     id = fields.Integer(dump_only=True)
-    time = fields.Date(dump_only=True)
+    time = fields.Date(required=True)
     user_id = fields.Integer(required=True)
     space_id = fields.Integer(required=True)
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
 
-    #@validates('time')
-    #def validate_time(self,f):
-    #   if f == :
-    #       raise ValidationError('already taken')
-
-    # def validates_time(newtime):
-    #    if newtime == fields.DateTime(time):
-    #        raise ValidationError('already taken')
-    # time = fields.DateTime(required=True, validates=validates_time)
+    '''@validates('time')
+    def validate_time(self,f):
+        if f == time:
+            raise ValidationError('already taken')'''
