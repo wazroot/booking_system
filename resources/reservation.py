@@ -28,14 +28,6 @@ class ReservationListResource(Resource):
         current_user = get_jwt_identity()
         data, errors = reservation_schema.load(data=json_data)
 
-        # get all reservations and make it a list
-        all_reservations = Reservation.get_all_reservations()
-
-        # if any reservations already exists for chosen space at a given time
-        # give an error message, this might be useless as Aku has already put some validations for this.
-        for i in range(0, (list(all_reservations).count(all_reservations)-1)):
-            if all_reservations[i]["time"] == json_data['time'] and all_reservations[i]["space_id"] == json_data['space_id']:
-                return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
         
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
