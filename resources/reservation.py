@@ -9,7 +9,6 @@ from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 '''This is our main interface. Here we CRUD a reservation, get reservations for a 
 specific user and reservations for a specific space.'''
 
-
 reservation_schema = ReservationSchema()
 reservation_list_schema = ReservationSchema(many=True)
 
@@ -28,9 +27,8 @@ class ReservationListResource(Resource):
         data, errors = reservation_schema.load(data=json_data)
 
         # get all reservations and make it a list
-        existing_reservations = Reservation.query.filter((Reservation.time == json_data['time']) &
-                                                         (Reservation.space_id == json_data['space_id'])).all()
-        if list(existing_reservations).count(existing_reservations) > 0:
+        existing_reservations = Reservation.query.filter_by(time=json_data['time'], space_id=json_data['space_id'])
+        if existing_reservations.count() > 0:
             return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
 
         if errors:
