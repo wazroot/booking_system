@@ -29,10 +29,10 @@ class ReservationListResource(Resource):
         data, errors = reservation_schema.load(data=json_data)
 
         # get all reservations and make it a list
-        existing_reservations = Reservation.query.filter_by(time=json_data['time'], space_id=json_data['space_id'])
+        existing_reservations = Reservation.query.filter((Reservation.time == json_data['time']) &
+                                                         (Reservation.space_id == json_data['space_id'])).all()
         if len(existing_reservations) > 0:
             return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
-
 
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
