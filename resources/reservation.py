@@ -82,7 +82,7 @@ class ReservationResource(Resource):
 
         reservation.save()
 
-        return reservation_schema.dump(reservation).data, HTTPStatus.OK
+        return reservation.data, HTTPStatus.OK
 
     @jwt_required
     def delete(self, reservation_id):
