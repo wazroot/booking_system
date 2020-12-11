@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields, post_dump, validate, validates, ValidationError
 from schemas.user import UserSchema
+from models.reservation import Reservation
 
 
 class SpaceSchema(Schema):
@@ -47,6 +48,12 @@ class SpaceSchema(Schema):
 
 class ReservationSchema(Schema):
 
+    def validate_time(self, time_validated):
+        all_reservations = Reservation.get_all_reservations()
+        for i in range(0, (list(all_reservations).count(all_reservations) - 1)):
+            if all_reservations[i]["time"] == time_validated:
+                raise ValidationError('already taken')
+
     id = fields.Integer(dump_only=True)
     time = fields.Date(required=True, validate=validate_time)
     user_id = fields.Integer(required=True)
@@ -54,7 +61,4 @@ class ReservationSchema(Schema):
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
 
-    #@validates('time')
-    #def validate_time(self,f):
-    #    if f == time:
-    #        raise ValidationError('already taken')
+
