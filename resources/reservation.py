@@ -26,11 +26,13 @@ class ReservationListResource(Resource):
         current_user = get_jwt_identity()
         data, errors = reservation_schema.load(data=json_data)
 
+        '''voiko meidän ongelma olla se, 
+        että json_datasta tuleva time on string muotoa "26/6/2020" vs DateTime muotoa "2020-06-14T00:00:00"'''
+
         # get all reservations and make it a list
-        existing_reservations = Reservation.query.filter_by(json_data['space_id'])
-        for reservation in existing_reservations:
-            if reservation.time == json_data['time']:
-                return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
+        existing_reservations = Reservation.query.filter_by(time=json_data['time'], space_id=json_data['space_id'])
+        if existing_reservations.count() > 0:
+            return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
 
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
