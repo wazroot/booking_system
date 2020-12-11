@@ -1,6 +1,5 @@
 from marshmallow import Schema, fields, post_dump, validate, validates, ValidationError
 from schemas.user import UserSchema
-from flask_jwt_extended import get_jwt_identity
 
 
 class SpaceSchema(Schema):
@@ -55,7 +54,7 @@ class ReservationSchema(Schema):
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
 
-    '''@validates('time')
-    def validate_time(self,f):
-        if f == time:
-            raise ValidationError('already taken')'''
+    #@validates('time')
+    #def validate_time(self,f):
+    #    if f == time:
+    #        raise ValidationError('already taken')
