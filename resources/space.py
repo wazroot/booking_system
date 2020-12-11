@@ -69,7 +69,7 @@ class SpaceResource(Resource):
 
         space.id = json_data['id']
         space.name = json_data['name']
-        space.capacity = json_data['capasity']
+        space.capacity = json_data['capacity']
 
         space.save()
 
