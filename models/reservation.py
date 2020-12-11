@@ -1,17 +1,20 @@
 from extensions import db
+from flask_jwt_extended import jwt_optional, get_jwt_identity, jwt_required
+from schemas.user import UserSchema
+from http import HTTPStatus
 
+
+user_schema = UserSchema()
 
 class Reservation(db.Model):
     __tablename__ = 'reservation'
 
-    id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.DateTime(),
-                     nullable=False)  # this datatype may need to be changed? How do we implement this on a query?
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
-    space_id = db.Column(db.Integer(), db.ForeignKey('space.id'), nullable=False)
+    id = db.Column(db.Integer(), primary_key=True)
+    time = db.Column(db.DateTime(), nullable=False)
+    user_id = db.Column(db.Integer())
+    space_id = db.Column(db.Integer(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
-
-    # updated_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now(), onupdate=db.func.now())
+    #updated_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now(), onupdate=db.func.now())
 
 
     @classmethod
@@ -37,6 +40,7 @@ class Reservation(db.Model):
     @classmethod
     def get_all_by_space_id(cls, space_id):
         return cls.query.filter_by(space_id=space_id).all()
+
 
 
 

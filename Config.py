@@ -14,14 +14,15 @@ class DevelopmentConfig(Config):
     
     DEBUG = True
     SECRET_KEY = 'super-secret-key'
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://postgres:12345@localhost:5432/database'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://postgres:12345@localhost/database'
 
 
 class ProductionConfig(Config):
     
     SECRET_KEY = os.environ.get('SECRET_KEY')
+    #SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://postgres:12345@localhost/database'
+    #SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-
 
 class StagingConfig(Config):
     SECRET_KEY = os.environ.get('SECRET_KEY')

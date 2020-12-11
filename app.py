@@ -2,10 +2,9 @@ import os
 from flask import Flask, request
 from flask_migrate import Migrate
 from flask_restful import Api
-from flask_uploads import configure_uploads, patch_request_class
 from Config import Config
-from extensions import db, jwt, image_set, cache, limiter
-from resources.user import UserListResource, UserResource, MeResource, UserReservationListResource, UserActivateResource
+from extensions import db, jwt
+from resources.user import UserListResource, UserResource, MeResource, UserActivateResource
 from resources.space import SpaceListResource, SpaceResource, SpaceCapacityResource
 from resources.token import TokenResource, RefreshResource, RevokeResource, black_list
 from resources.reservation import ReservationListResource, ReservationResource, ReservationUserResource, \
@@ -53,15 +52,16 @@ def register_resources(app):
     api.add_resource(TokenResource, '/token')
 
     api.add_resource(SpaceListResource, '/spaces')  # to add spaces and get all spaces.
-    api.add_resource(SpaceResource, '/spaces/<int:space_id>')  # to get specific space by id and updating.
-    api.add_resource(SpaceCapacityResource, '/spaces/<int:space_capacity>')  # to get spaces with specific capacity.
+    api.add_resource(SpaceResource, '/spaces/space/<int:space_id>')  # to get specific space by id and updating.
+    api.add_resource(SpaceCapacityResource, '/spaces/capacity/<int:space_capacity>')  # to get spaces with specific
+    # capacity.
 
     api.add_resource(ReservationListResource, '/reservations')  # to get all reservations and add reservations
     api.add_resource(ReservationResource, '/reservations/<int:reservation_id>')  # to get a specific reservation by id
     # and updating
-    api.add_resource(ReservationUserResource, '/reservations/<int:user_id>')  # to get all reservations
+    api.add_resource(ReservationUserResource, '/reservations/user/<int:user_id>')  # to get all reservations
     # with a specific user id.
-    api.add_resource(ReservationSpaceResource, '/reservations/<int:space_id>')  # to get all reservations
+    api.add_resource(ReservationSpaceResource, '/reservations/space/<int:space_id>')  # to get all reservations
     # with a specific space_id.
 
 

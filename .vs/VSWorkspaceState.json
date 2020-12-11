@@ -2,11 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\migrations",
-    "\\migrations\\versions",
     "\\models",
     "\\resources",
     "\\schemas"
   ],
-  "SelectedNode": "\\resources\\reservation.py",
+  "SelectedNode": "\\schemas\\validations.py",
   "PreviewInSolutionExplorer": false
 }

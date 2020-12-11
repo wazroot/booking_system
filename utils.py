@@ -1,12 +1,9 @@
 
 import os
-import uuid
-from PIL import Image
-from flask_uploads import extension
 from passlib.hash import pbkdf2_sha256
 from itsdangerous import URLSafeTimedSerializer
 from flask import current_app
-from extensions import image_set, cache
+
 
 
 def hash_password(password):

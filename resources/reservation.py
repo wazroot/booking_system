@@ -28,13 +28,10 @@ class ReservationListResource(Resource):
         data, errors = reservation_schema.load(data=json_data)
 
         # get all reservations and make it a list
-        all_reservations = Reservation.get_all_reservations()
-
-        # if any reservations already exists for chosen space at a given time
-        # give an error message, this might be useless as Aku has already put some validations for this.
-        for reservation in all_reservations:
-            if reservation.time == json_data['time'] and reservation.space_id == json_data['space_id']:
-                return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
+        existing_reservations = Reservation.query.filter((Reservation.time == json_data['time']) &
+                                                         (Reservation.space_id == json_data['space_id'])).all()
+        if list(existing_reservations).count(existing_reservations) > 0:
+            return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
 
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
@@ -56,7 +53,7 @@ class ReservationResource(Resource):
 
         current_user = get_jwt_identity()
 
-        if reservation.user_id != current_user:
+        if reservation.user_id != current_user or current_user is None:
             return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
         return reservation_schema.dump(reservation).data, HTTPStatus.OK

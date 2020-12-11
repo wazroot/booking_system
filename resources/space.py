@@ -31,8 +31,10 @@ class SpaceListResource(Resource):
         space.user_id = current_user
         space.save()
 
-        return space_schema.dump(space).data, HTTPStatus.CREATED
-
+        try:
+            return space_schema.dump(space).data, HTTPStatus.CREATED
+        except HTTPStatus.INTERNAL_SERVER_ERROR:
+            return {'message': "space_schema dump errors"}, HTTPStatus.BAD_REQUEST
 
 class SpaceResource(Resource):
 
@@ -68,7 +70,7 @@ class SpaceResource(Resource):
 
         space.id = json_data['id']
         space.name = json_data['name']
-        space.capacity = json_data['capasity']
+        space.capacity = json_data['capacity']
 
         space.save()
 
