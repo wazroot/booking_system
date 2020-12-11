@@ -17,7 +17,7 @@ class Reservation(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     time = db.Column(db.DateTime(), nullable=False)
-    user_id = db.Column(db.Integer(), nullable=False)
+    user_id = db.Column(db.Integer())
     space_id = db.Column(db.Integer(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
 
