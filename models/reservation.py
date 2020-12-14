@@ -10,7 +10,7 @@ class Reservation(db.Model):
     __tablename__ = 'reservation'
 
     id = db.Column(db.Integer(), primary_key=True)
-    time = db.Column(db.DateTime(), nullable=False)
+    time = db.Column(db.Date(), nullable=False)
     user_id = db.Column(db.Integer())
     space_id = db.Column(db.Integer(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
