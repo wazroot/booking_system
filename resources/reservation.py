@@ -26,9 +26,6 @@ class ReservationListResource(Resource):
         current_user = get_jwt_identity()
         data, errors = reservation_schema.load(data=json_data)
 
-        '''voiko meidän ongelma olla se, 
-        että json_datasta tuleva time on string muotoa "26/6/2020" vs DateTime muotoa "2020-06-14T00:00:00"?
-        '''
 
         # get all reservations and make it a list
         existing_reservations = Reservation.query.filter_by(time=json_data['time'], space_id=json_data['space_id'])
