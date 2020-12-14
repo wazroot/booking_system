@@ -9,6 +9,7 @@ from schemas.validations import SpaceSchema
 space_schema = SpaceSchema()
 space_list_schema = SpaceSchema(many=True)
 
+'''Here we CRUD a space and get spaces with a given capacity.'''
 
 class SpaceListResource(Resource):
 

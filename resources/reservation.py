@@ -6,10 +6,8 @@ from http import HTTPStatus
 
 from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 
-# Tämä luokka toimii pääasiallisena rajapintana. Tänne metodit joilla tehdään varauksia ja etsitään varauksia käyttäjän id:llä,
-# ja tilan id:llä
-
-# Poistetaan täältä myöhemmin kaikki mitä ei tarvita.
+'''This is our main interface. Here we CRUD a reservation, get reservations for a 
+specific user and reservations for a specific space.'''
 
 reservation_schema = ReservationSchema()
 reservation_list_schema = ReservationSchema(many=True)
@@ -28,14 +26,14 @@ class ReservationListResource(Resource):
         current_user = get_jwt_identity()
         data, errors = reservation_schema.load(data=json_data)
 
-        # get all reservations and make it a list
-        all_reservations = Reservation.get_all_reservations()
+        '''voiko meidän ongelma olla se, 
+        että json_datasta tuleva time on string muotoa "26/6/2020" vs DateTime muotoa "2020-06-14T00:00:00"?
+        '''
 
-        # if any reservations already exists for chosen space at a given time
-        # give an error message, this might be useless as Aku has already put some validations for this.
-        for reservation in all_reservations:
-            if reservation.time == json_data['time'] and reservation.space_id == json_data['space_id']:
-                return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
+        # get all reservations and make it a list
+        existing_reservations = Reservation.query.filter_by(time=json_data['time'], space_id=json_data['space_id'])
+        if existing_reservations.count() > 0:
+            return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
 
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
@@ -79,12 +77,10 @@ class ReservationResource(Resource):
 
         reservation.id = json_data['id']
         reservation.time = json_data['time']
-        reservation.user_id = json_data['user_id']
-        reservation.space_id = json_data['space_id']
 
         reservation.save()
 
-        return reservation_schema.dump(reservation).data, HTTPStatus.OK
+        return reservation.data(), HTTPStatus.OK
 
     @jwt_required
     def delete(self, reservation_id):
