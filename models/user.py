@@ -13,7 +13,7 @@ class User(db.Model):
     is_active = db.Column(db.Boolean(), default=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now(), onupdate=db.func.now())
-    #reservations = db.relationship('Reservation', backref='user')
+    
 
 
     @classmethod

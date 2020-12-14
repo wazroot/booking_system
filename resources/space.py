@@ -46,10 +46,6 @@ class SpaceResource(Resource):
         if space is None:
             return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
-        # current_user = get_jwt_identity()
-        #
-        # if space.user_id != current_user:  # toimiiko tämä jos spacella ei ole muuttujaa user_id?
-        #     return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
 
         return space_schema.dump(space).data, HTTPStatus.OK
 
@@ -63,11 +59,7 @@ class SpaceResource(Resource):
         if space is None:
             return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
-        # current_user = get_jwt_identity()
-        #
-        # if current_user != space.user_id:  # toimiiko tämä jos spacella ei ole muuttujaa user_id?
-        #     return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
-
+        
         space.id = json_data['id']
         space.name = json_data['name']
         space.capacity = json_data['capacity']
@@ -84,11 +76,7 @@ class SpaceResource(Resource):
         if space is None:
             return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
-        # current_user = get_jwt_identity()
-        #
-        # if current_user != space.user_id:  # toimiiko tämä jos spacella ei ole muuttujaa user_id?
-        #     return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
-
+        
         space.delete()
 
         return {}, HTTPStatus.NO_CONTENT
@@ -107,10 +95,7 @@ class SpaceResource(Resource):
         if space is None:
             return {'message': 'Space not found'}, HTTPStatus.NOT_FOUND
 
-        # current_user = get_jwt_identity()
-        #
-        # if current_user != space.user_id:  # toimiiko tämä jos spacella ei ole muuttujaa user_id?
-        #     return {'message': 'Access is not allowed'}, HTTPStatus.FORBIDDEN
+      
 
         space.name = data.get('name') or space.name
         space.capacity = data.get('capacity') or space.capacity

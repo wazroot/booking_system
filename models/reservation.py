@@ -14,7 +14,7 @@ class Reservation(db.Model):
     user_id = db.Column(db.Integer())
     space_id = db.Column(db.Integer(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
-    #updated_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now(), onupdate=db.func.now())
+    
 
 
     @classmethod
@@ -23,7 +23,7 @@ class Reservation(db.Model):
 
     @classmethod
     def get_by_id(cls, reservation_id):
-        return cls.query.filter_by(id=reservation_id).first()  # cls.query.get(id=reservation_id) voisi olla parempi tähän
+        return cls.query.filter_by(id=reservation_id).first()
 
     def save(self):
         db.session.add(self)

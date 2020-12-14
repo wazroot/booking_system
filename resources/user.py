@@ -8,13 +8,13 @@ from schemas.user import UserSchema
 from http import HTTPStatus
 from webargs import fields
 from webargs.flaskparser import use_kwargs
-from models.space import Space                      #Instructions muuttui -> Space
+from models.space import Space                      
 from schemas.validations import SpaceSchema
 from schemas.user import UserSchema
 from mailgun import MailgunApi
 
-                                                   #instructions_list_schema muuttui -> space_list_schema
-space_list_schema = SpaceSchema(many=True)         #InstructionSchema muuttui -> SpaceSchema
+                                                
+space_list_schema = SpaceSchema(many=True)         
 user_schema = UserSchema()
 user_public_schema = UserSchema(exclude=('email', ))
 mailgun = MailgunApi(domain='sandboxe6b1c63a9c6c44a39c6525059bd73550.mailgun.org',
@@ -34,9 +34,6 @@ class UserSpaceListResource(Resource):
             visibility = 'public'
         space = Space.get_all_by_user(user_id=user.id,visibility=visibility)
         return space_list_schema.dump(space).data, HTTPStatus.OK
-
-
-#class UserReservationListResource(Resource):
 
 
 class MeResource(Resource):
