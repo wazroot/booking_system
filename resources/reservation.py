@@ -6,10 +6,8 @@ from http import HTTPStatus
 
 from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 
-# Tämä luokka toimii pääasiallisena rajapintana. Tänne metodit joilla tehdään varauksia ja etsitään varauksia käyttäjän id:llä,
-# ja tilan id:llä
-
-# Poistetaan täältä myöhemmin kaikki mitä ei tarvita.
+'''This is our main interface. Here we CRUD a reservation, get reservations for a 
+specific user and reservations for a specific space.'''
 
 reservation_schema = ReservationSchema()
 reservation_list_schema = ReservationSchema(many=True)
@@ -28,17 +26,15 @@ class ReservationListResource(Resource):
         current_user = get_jwt_identity()
         data, errors = reservation_schema.load(data=json_data)
 
+        '''voiko meidän ongelma olla se, 
+        että json_datasta tuleva time on string muotoa "26/6/2020" vs DateTime muotoa "2020-06-14T00:00:00"?
+        '''
+
         # get all reservations and make it a list
         existing_reservations = Reservation.query.filter_by(time=json_data['time'], space_id=json_data['space_id'])
-        if len(existing_reservations) > 0:
+        if existing_reservations.count() > 0:
             return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
 
-        # if any reservations already exists for chosen space at a given time
-        # give an error message, this might be useless as Aku has already put some validations for this.
-        for i in range(0, (list(all_reservations).count(all_reservations)-1)):
-            if all_reservations[i]["time"] == json_data['time'] and all_reservations[i]["space_id"] == json_data['space_id']:
-                return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
-        
         if errors:
             return {'message': "Validation errors", 'errors': errors}, HTTPStatus.BAD_REQUEST
         reservation = Reservation(**data)

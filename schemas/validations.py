@@ -48,11 +48,6 @@ class SpaceSchema(Schema):
 
 class ReservationSchema(Schema):
 
-    #def validate_time(self, time_validated):
-    #    all_reservations = Reservation.get_all_reservations()
-    #    for i in range(0, (list(all_reservations).count(all_reservations) - 1)):
-    #        if all_reservations[i]["time"] == time_validated:
-    #            raise ValidationError('already taken')
 
     id = fields.Integer(dump_only=True)
     time = fields.Date(required=True)
