@@ -10,11 +10,10 @@ class Space(db.Model):
     updated_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now(), onupdate=db.func.now())
 
    
-
-
     @classmethod
     def get_by_id(cls, space_id):
         return cls.query.filter_by(id=space_id).first()
+    
     @classmethod
     def get_by_capacity(cls, space_capacity):
         return cls.query.filter_by(capacity=space_capacity).all()

@@ -16,7 +16,6 @@ class Reservation(db.Model):
     created_at = db.Column(db.DateTime(), nullable=False, server_default=db.func.now())
     
 
-
     @classmethod
     def get_all_reservations(cls):
         return cls.query.all()
