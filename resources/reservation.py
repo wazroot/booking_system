@@ -26,10 +26,8 @@ class ReservationListResource(Resource):
         current_user = get_jwt_identity()
         data, errors = reservation_schema.load(data=json_data)
 
-
-        
         existing_reservations = Reservation.query.filter_by(time=json_data['time'], space_id=json_data['space_id'])
-        if existing_reservations.count() == True:
+        if existing_reservations.count():
             return {'message': "A reservation already exists for given time and space"}, HTTPStatus.BAD_REQUEST
 
         if errors:
