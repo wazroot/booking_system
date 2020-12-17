@@ -2,7 +2,6 @@ from flask import request
 from flask_restful import Resource
 from http import HTTPStatus
 from models.space import Space
-from models.reservation import Reservation
 from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 from schemas.validations import SpaceSchema
 
@@ -10,6 +9,7 @@ space_schema = SpaceSchema()
 space_list_schema = SpaceSchema(many=True)
 
 '''Here we CRUD a space and get spaces with a given capacity.'''
+
 
 class SpaceListResource(Resource):
 
@@ -36,6 +36,7 @@ class SpaceListResource(Resource):
         except HTTPStatus.INTERNAL_SERVER_ERROR:
             return {'message': "space_schema dump errors"}, HTTPStatus.BAD_REQUEST
 
+
 class SpaceResource(Resource):
 
     @jwt_optional
@@ -45,7 +46,6 @@ class SpaceResource(Resource):
 
         if space is None:
             return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
-
 
         return space_schema.dump(space).data, HTTPStatus.OK
 
@@ -59,7 +59,6 @@ class SpaceResource(Resource):
         if space is None:
             return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
-        
         space.id = json_data['id']
         space.name = json_data['name']
         space.capacity = json_data['capacity']
@@ -76,7 +75,6 @@ class SpaceResource(Resource):
         if space is None:
             return {'message': 'space not found'}, HTTPStatus.NOT_FOUND
 
-        
         space.delete()
 
         return {}, HTTPStatus.NO_CONTENT
@@ -94,8 +92,6 @@ class SpaceResource(Resource):
 
         if space is None:
             return {'message': 'Space not found'}, HTTPStatus.NOT_FOUND
-
-      
 
         space.name = data.get('name') or space.name
         space.capacity = data.get('capacity') or space.capacity

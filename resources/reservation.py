@@ -3,7 +3,6 @@ from schemas.validations import ReservationSchema
 from flask import request
 from flask_restful import Resource
 from http import HTTPStatus
-import datetime as dt
 from flask_jwt_extended import get_jwt_identity, jwt_required, jwt_optional
 
 '''This is our main interface. Here we CRUD a reservation, get reservations for a 

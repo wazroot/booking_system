@@ -1,8 +1,7 @@
 import os
-from flask import Flask, request
+from flask import Flask
 from flask_migrate import Migrate
 from flask_restful import Api
-from Config import Config
 from extensions import db, jwt
 from resources.user import UserListResource, UserResource, UserActivateResource
 from resources.space import SpaceListResource, SpaceResource, SpaceCapacityResource

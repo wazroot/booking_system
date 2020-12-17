@@ -1,10 +1,5 @@
 from extensions import db
-from flask_jwt_extended import jwt_optional, get_jwt_identity, jwt_required
-from schemas.user import UserSchema
-from http import HTTPStatus
 
-
-user_schema = UserSchema()
 
 class Reservation(db.Model):
     __tablename__ = 'reservation'
